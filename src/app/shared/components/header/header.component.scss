@@ -1,0 +1,56 @@
+header {
+    width: 100%;
+}
+
+.topbar-container {
+    background-color: var(--primary-color);
+    width: 100%;
+}
+
+.contacts {
+    display: flex;
+    gap: 10px;
+
+    a {
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        gap: 5px;
+
+        &:hover {
+            background-color: var(--primary-hover);
+            border-radius: 15px;
+        }
+    }
+}
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    a {
+        padding: 5px;
+        display: inline-block;
+        transition: .2s;
+        &:hover {
+            background-color: var(--primary-hover);
+            border-radius: 15px;
+        }
+    }
+}
+
+.content {
+    background-color: var(--secondary-color);
+
+    .container {
+        padding: 16px 0px;
+    }
+    .logo {
+        max-width: 172px;
+    }
+
+    .btn-contact {
+        background-color: var(--tertiary-color);
+    }
+}

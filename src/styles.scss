@@ -1,6 +1,174 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
     --primary-color: #eeb913;
-    --secondary-color: #010101;
+    --primary-hover: #dfac13;
+    --secondary-color: #1E1D1B;
+    --secondary-hover: #333333;
     --tertiary-color: #fffcf3;
+    --tertiary-hover: rgb(236, 232, 218);
+    --font: "Roboto", Arial, sans-serif;
+    --default-container: 1152px;
+}
+
+body {
+    font-family: var(--font);
+}
+
+.btn-primary {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 48px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    max-width: var(--default-container);
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    padding: 5px;
+
+    &.column {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    &.wrap {
+        flex-wrap: wrap;
+    }
+}
+
+/* 1. Box-sizing global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove margens e paddings padrão */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Altura base para body e html (importante para SSR) */
+html,
+body {
+  height: 100%;
+}
+
+/* 4. Suavização de fontes */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 5. Imagens responsivas por padrão */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. Herança de fonte em elementos de formulário */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* 7. Remove estilos padrão de botões */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 8. Remove estilos de lista */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 9. Links sem sublinhado padrão */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 10. Títulos sem negrito automático (você define) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: 1.2;
+}
+
+/* 11. Parágrafos com espaçamento legível */
+p {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 12. Tabelas limpas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 13. Evita animações para quem prefere redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 14. Scroll suave (com fallback para SSR) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 15. Remove outline padrão, mas mantém acessibilidade */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* 16. Placeholder com opacidade consistente */
+::placeholder {
+  opacity: 0.6;
+}
+
+/* 17. Seleção de texto com cor do tema */
+::selection {
+  background-color: rgba(26, 42, 74, 0.2);
+  color: inherit;
 }
