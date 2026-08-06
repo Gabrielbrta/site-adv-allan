@@ -1,13 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-    --primary-color: #eeb913;
-    --primary-hover: #dfac13;
-    --secondary-color: #1E1D1B;
-    --secondary-hover: #333333;
-    --tertiary-color: #fffcf3;
-    --tertiary-hover: rgb(236, 232, 218);
-    --font: "Roboto", Arial, sans-serif;
-    --default-container: 1152px;
+    --yellow-color: #eeb913;
+    --yellow-hover: #dfac13;
+    --black-color: #1E1D1B;
+    --black-hover: #333333;
+    --white-color: #fffcf3;
+    --white-hover: #ebe9e3;
+    --green-color: #00C458;
+    --green-hover: #02a84d;
+    --font: "Poppins", Arial, sans-serif;
+    --default-container: 1200px;
 }
 
 body {
@@ -20,9 +22,11 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    max-height: 48px;
     padding: 14px 16px;
     text-transform: uppercase;
     font-weight: bold;
+    font-size: .875rem;
     border-radius: 48px;
 }
 
@@ -140,10 +144,7 @@ table {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    scroll-behavior: smooth;
   }
 }
 

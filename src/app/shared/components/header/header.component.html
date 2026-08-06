@@ -27,15 +27,39 @@
         <div class="container">
             <div class="logo">
                 <a href="#">
-                    <img src="images/Logo-Claro.png" alt="">
+                    <img src="icons/logo.svg" alt="">
                 </a>
             </div>
-            <div class="button-container">
-                <a href="#" class="btn-contact btn-primary">
-                    Entrar em contato
-                    <img src="icons/whatsapp.svg" alt="">
-                </a>
-            </div>
+            <nav class="menu-container">
+                <button class="hamburger" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-label="Abrir menu">
+                    <img src="icons/menu.svg" alt="menu" class="hamburger-icon">
+                </button>
+
+                <ul class="menu-items-container" [class.open]="isMobileMenuOpen">
+                    <div class="items">
+                        <li><a routerLink="sobre" (click)="closeMobileMenu()">Sobre Nós</a></li>
+                        <li><a routerLink="calculadora" (click)="closeMobileMenu()">Calculadora trabalhista</a></li>
+                        <li><a routerLink="atuacao" (click)="closeMobileMenu()">Áreas de Atuação</a></li>
+                        <li><a routerLink="contato" (click)="closeMobileMenu()">Contato</a></li>
+                    </div>
+                    <div class="button">
+                        <app-button
+                        [text]="'ENTRAR EM CONTATO'"
+                        [href]="'#'"
+                        [icon]="'icons/whatsapp-black.svg'"
+                        [alt]="'icone do whatsapp'"
+                        [style]="'white'"
+                        >
+                        </app-button>
+                    </div>
+                    
+                </ul>
+            </nav>
+
+            <div class="mobile-backdrop" [hidden]="!isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+            
+                
+            
         </div>
     </div>
 </header>
