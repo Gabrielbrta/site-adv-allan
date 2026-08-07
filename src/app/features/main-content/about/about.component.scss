@@ -1,0 +1,33 @@
+.about-container {
+    align-items: start;
+     max-width: 978px;
+    .img-container {
+        height: 100%;
+        width: 100%;
+
+         img {
+            border-radius: 15px;
+         }
+    }
+
+    .about-content {
+        width: 100%;
+        font-size: 1rem;
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .about-list-container  {
+            padding-top: 10px;
+            display: flex;
+            gap: 5px;
+            flex-direction: column;
+            li{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+        }
+    }
+}
