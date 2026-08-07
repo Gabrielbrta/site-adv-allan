@@ -1,0 +1,27 @@
+<div class="button-container">
+    @if(routerLink() !== '') {
+        <a [routerLink]="routerLink()" class="btn-contact btn-primary"
+        [class.green]="style() === 'green'"
+        [class.white]="style() === 'white'"
+        [class.black]="style() === 'black'"
+        >
+            {{text()}}
+            @if(icon() !== '') {
+                <img [src]="icon()" [alt]="alt() ?? ''">
+            }
+        </a>
+    }
+    
+    @if(href() !== ''){
+        <a [href]="href() ?? '#'" class="btn-contact btn-primary"
+        [class.green]="style() === 'green'"
+        [class.white]="style() === 'white'"
+        [class.black]="style() === 'black'"
+        >
+            {{text()}}
+            @if(icon() !== '') {
+                <img [src]="icon()" [alt]="alt() ?? ''">
+            }
+        </a>
+    }
+</div>

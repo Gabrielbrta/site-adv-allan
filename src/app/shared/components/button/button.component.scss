@@ -1,0 +1,31 @@
+.button-container {
+    width: 100%;
+    display: flex;
+}
+
+.btn-contact {
+    background-color: var(--white-color);
+    transition: background-color .3s ease;
+    flex: 1;
+    &.black {
+        background-color: var(--black-color);
+        color: var(--white-color);
+        &:hover {
+            background-color: var(--black-hover);
+        }
+    }
+    &.green {
+        background-color: var(--green-color);
+        color: var(--white-color);
+        &:hover {
+            background-color: var(--green-hover);
+        }
+    }
+    &.white {
+        background-color: var(--white-color);
+        color: var(--black-color);
+        &:hover {
+            background-color: var(--white-hover);
+        }
+    }
+}
