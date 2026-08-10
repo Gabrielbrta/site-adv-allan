@@ -9,7 +9,7 @@ export const HomeRoutes: Routes = [
     },
     {
         path: 'sobre',
-        loadComponent: () => import('../main-content/main-content.component').then(c => c.MainContentComponent),
+        loadComponent: () => import('../sobre/sobre.component').then(c => c.SobreComponent),
     },
     {
         path: 'calculadora-trabalhista',
