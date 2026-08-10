@@ -118,6 +118,11 @@ header {
 }
 
 @media (max-width: 850px) {
+
+    .content {
+        padding: 0 15px;
+        width: 100%;
+    }
     .menu-items-container {
         display: none;
         position: absolute;
@@ -165,12 +170,16 @@ header {
 
     .menu-container .hamburger {
         position: absolute;
-        right: 16px;
+        right: 0px;
         top: 50%;
         transform: translateY(-50%);
     }
 
     .mobile-backdrop[hidden] { 
         display: none; 
+    }
+
+    .topbar-container {
+        display: none;
     }
 }

@@ -4,6 +4,8 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    color: var(--white-color);
 
     .footer-container {
         max-width: 1200px;
@@ -87,5 +89,16 @@ footer {
         }
     }
 
+    .copy {
+        font-weight: 300;
+        font-size: .875rem;
+        flex-wrap: wrap;
 
+         @media (max-width: 750px) {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+         }
+
+    }
 }

@@ -1,0 +1,35 @@
+#cta-calculo {
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px;
+}
+
+.calculo-container {
+    padding: 32px 10px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #373635;
+    color: var(--white-color);
+    border-radius: 1rem;
+
+    p, h2 {
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        line-height: 150%;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 150%;
+        font-weight: 400;
+    }
+}

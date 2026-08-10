@@ -39,7 +39,7 @@ body {
     justify-content: space-between;
     width: 100%;
     margin: 0 auto;
-    padding: 5px;
+    padding: 10px;
     
     &-sm{
       display: flex;
@@ -47,7 +47,7 @@ body {
       justify-content: space-between;
       width: 100%;
       margin: 0 auto;
-      padding: 5px;
+      padding: 10px;
       max-width: var(--container-sm);
       
       &.column {
