@@ -1,0 +1,52 @@
+.card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 16px;
+    padding: 25px 16px;
+    max-width: 272px;
+    min-width: 200px;
+    height: 100%;
+    border-radius: 16px;
+    color: var(--black-color);
+    background: linear-gradient(180deg, #fefefe, #D9D9D9);
+
+    @media (max-width: 390px) {
+        max-width: none;
+        width: 100%;
+    }
+
+    .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        background-color: var(--yellow-color);
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 150%;
+        }
+        
+        p {
+            font-size: .876rem;
+            line-height: 150%;
+            font-family: var(--vietnam);
+            font-weight: 300;
+        }
+    }
+}

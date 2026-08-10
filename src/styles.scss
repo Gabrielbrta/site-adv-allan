@@ -9,7 +9,9 @@
     --green-color: #00C458;
     --green-hover: #02a84d;
     --font: "Poppins", Arial, sans-serif;
+    --vietnam: "Be Vietnam Pro", sans-serif;
     --default-container: 1200px;
+    --container-sm: 978px;
 }
 
 body {
@@ -38,6 +40,22 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 5px;
+    
+    &-sm{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 0 auto;
+      padding: 5px;
+      max-width: var(--container-sm);
+      
+      &.column {
+          flex-direction: column;
+          justify-content: center;
+          gap: 15px;
+      }
+    }
 
     &.column {
         flex-direction: column;
