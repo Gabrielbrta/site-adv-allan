@@ -1,0 +1,71 @@
+<div id="atuacao">
+    <div class="container-sm atuacao-container">
+        <div class="content">
+            <h1>Áreas de atuação</h1>
+            <p>A <strong>Allan Rodrigues Advocacia</strong> é um escritório comprometido com a excelência na prestação de serviços jurídicos, oferecendo atendimento personalizado e soluções estratégicas para pessoas e empresas.</p>
+            <br>
+            <p>Com atuação destacada no Direito do Trabalho e experiência também nas áreas de Direito Civil, Direito Previdenciário, Direito de Família e Sucessões e Direito do Consumidor, o escritório desenvolve um trabalho pautado na ética, transparência e busca constante pelos melhores resultados para seus clientes.</p>
+        </div>
+
+        <div class="atuacao-cards-container container-sm">
+            <div class="card">
+                <app-card-atuacao
+                [side]="'left'"
+                [link]="'#'"
+                [img]="'images/clt.png'"
+                [alt]="'Imagem de uma carteira de trabalho'"
+                >
+                <h2>Direito do Trabalho</h2>
+                <p>Nossa principal área de atuação é a defesa dos direitos dos trabalhadores. <strong>Prestamos assessoria em demandas envolvendo verbas rescisórias, horas extras, adicional de insalubridade e periculosidade, acidentes de trabalho, reconhecimento de vínculo empregatício, assédio moral, estabilidade provisória, equiparação salarial, rescisão indireta e demais questões decorrentes das relações de trabalho.</strong></p>
+                </app-card-atuacao>
+            </div>
+            <div class="card">
+                <app-card-atuacao
+                [side]="'right'"
+                [link]="'#'"
+                [img]="'images/fechado.png'"
+                [alt]="'Imagem de dois homens apertando as mãos'"
+                >
+                <h2>Direito Civil</h2>
+                <p>Atuamos na solução de conflitos envolvendo responsabilidade civil, indenizações, contratos, obrigações, cobranças, posse, propriedade e outras questões patrimoniais e pessoais.</p>
+                <p>Nosso objetivo é oferecer segurança jurídica e soluções eficientes, sempre buscando a melhor alternativa para cada situação.</p>
+                </app-card-atuacao>
+            </div>
+            <div class="card">
+                <app-card-atuacao
+                [side]="'left'"
+                [link]="'#'"
+                [img]="'images/martelo.png'"
+                [alt]="'Imagem de um martelo'"
+                >
+                <h2>Direito Previdenciário</h2>
+                <p>Prestamos assessoria em pedidos de aposentadoria, pensão por morte, auxílio-doença, Benefício de Prestação Continuada (BPC/LOAS), revisões de benefícios e demais demandas relacionadas ao INSS.</p>
+                <p>Acompanhamos nossos clientes desde a análise inicial até a conclusão do procedimento.</p>
+                </app-card-atuacao>
+            </div>
+            <div class="card">
+                <app-card-atuacao
+                [side]="'right'"
+                [link]="'#'"
+                [img]="'images/guarda-chuva.png'"
+                [alt]="'Imagem de um guarda-chuva'"
+                >
+                <h2>Direito de Família e Sucessões</h2>
+                <p>Atuamos em questões que exigem sensibilidade, discrição e segurança jurídica, como divórcio, guarda de filhos, regulamentação de visitas, pensão alimentícia, inventário, partilha de bens e planejamento sucessório.</p>
+                <p>Buscamos soluções equilibradas, preservando os direitos, o patrimônio e, sempre que possível, os vínculos familiares.</p>
+                </app-card-atuacao>
+            </div>
+            <div class="card">
+                <app-card-atuacao
+                [side]="'left'"
+                [link]="'#'"
+                [img]="'images/carrinho.png'"
+                [alt]="'Imagem de um carrinho de compras'"
+                >
+                <h2>Direito do Consumidor</h2>
+                <p>Defendemos os direitos dos consumidores em conflitos envolvendo cobranças indevidas, negativação irregular, produtos com defeito, falhas na prestação de serviços, planos de saúde, instituições financeiras, companhias aéreas e outras relações de consumo.</p>
+                </app-card-atuacao>
+            </div>
+        </div>
+    </div>
+</div>

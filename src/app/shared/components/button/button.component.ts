@@ -14,5 +14,5 @@ export class ButtonComponent {
   alt = input<string>('');
   text = input.required<string>();
   href = input<string>('');
-  style = input<'white' | 'green' | 'black'>('white');
+  style = input<'white' | 'green' | 'black' | 'yellow'>('white');
 }
