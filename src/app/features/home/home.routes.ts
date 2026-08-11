@@ -17,7 +17,7 @@ export const HomeRoutes: Routes = [
     },
     {
         path: 'areas-de-atuacao',
-        loadComponent: () => import('../main-content/main-content.component').then(c => c.MainContentComponent),
+        loadComponent: () => import('../areas-de-atuacao/areas-de-atuacao.component').then(c => c.AreasDeAtuacaoComponent),
     },
     {
         path: 'contato',

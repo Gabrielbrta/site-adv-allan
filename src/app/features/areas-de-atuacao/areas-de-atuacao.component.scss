@@ -1,0 +1,77 @@
+#atuacao {
+    width: 100%;
+    background-color: var(--white-color);
+    position: relative;
+    padding: 50px 0;
+    &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-image: url('/images/overlay-diferentials.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 5;
+    }
+}
+
+.atuacao-container {
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    .content {
+        color: var(--black-color);
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+        max-width: 820px;
+
+        h1 {
+            font-weight: bold;
+            letter-spacing: -1px;
+            font-size: 2rem;
+        }
+
+        p {
+            line-height: 150%;
+            font-size: 1rem;
+            padding: 5px 0;
+        }
+    }
+
+    .card {
+        width: 100%;
+        color: var(--white-color);
+        h2 {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: -1px;
+            line-height: 130%;
+            margin-bottom: .5rem;
+            width: 100%;
+        }   
+        
+        p {
+            width: 100%;
+            font-size: .875rem;
+            line-height: 150%;
+            font-weight: 300;
+
+            strong {
+                font-weight: bold;
+            }
+
+        }
+    }
+}
+
+.atuacao-cards-container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 0;
+    gap: 30px;
+}

@@ -28,4 +28,12 @@
             background-color: var(--white-hover);
         }
     }
+    &.yellow {
+        background-color: transparent;
+        font-family: var(--montserrat);
+        color: var(--yellow-color);
+        &:hover {
+            color: var(--yellow-hover);
+        }
+    }
 }

@@ -1,0 +1,21 @@
+<article class="card" 
+    [class.right]="side() === 'right'"
+    [class.left]="side() === 'left'"
+>
+    <div class="content">
+        <ng-content></ng-content>
+        <div class="button-container">
+            <app-button
+            [text]="'FALAR COM ESPECIALISTA'"
+            [icon]="'icons/law-yellow.svg'"
+            [href]="'#'"
+            [style]="'yellow'"
+            >
+            </app-button>
+        </div>
+    </div>
+    <div class="img-container">
+        <img [src]="img()" [alt]="alt()">
+    </div>
+
+</article>
