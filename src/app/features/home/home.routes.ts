@@ -1,6 +1,4 @@
 import { Routes } from "@angular/router";
-import { HomeComponent } from "./home.component";
-import { MainContentComponent } from "../main-content/main-content.component";
 
 export const HomeRoutes: Routes = [
     {
@@ -21,6 +19,6 @@ export const HomeRoutes: Routes = [
     },
     {
         path: 'contato',
-        loadComponent: () => import('../main-content/main-content.component').then(c => c.MainContentComponent),
+        loadComponent: () => import('../contato/contato.component').then(c => c.ContatoComponent),
     },
 ]
