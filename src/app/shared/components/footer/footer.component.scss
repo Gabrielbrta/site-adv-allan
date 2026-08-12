@@ -9,6 +9,10 @@ footer {
     align-items: center;
     flex-direction: column;
     color: var(--white-color);
+    
+    address {
+        font-style: normal;
+    }
 
     .footer-container {
         max-width: 1200px;
