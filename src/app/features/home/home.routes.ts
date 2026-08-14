@@ -11,7 +11,7 @@ export const HomeRoutes: Routes = [
     },
     {
         path: 'calculadora-trabalhista',
-        loadComponent: () => import('../main-content/main-content.component').then(c => c.MainContentComponent),
+        loadComponent: () => import('../calculadora-trabalhista/calculadora-trabalhista.component').then(c => c.CalculadoraTrabalhistaComponent),
     },
     {
         path: 'areas-de-atuacao',

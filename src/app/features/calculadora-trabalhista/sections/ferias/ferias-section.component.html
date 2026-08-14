@@ -1,0 +1,70 @@
+<section id="section-ferias" class="section-card" [formGroup]="form()">
+  <header class="section-card__header">
+    <h2>Período aquisitivo e dias vendidos</h2>
+    <p>
+      Organizei a aba para reduzir ruído visual no mobile e deixar claro o que afeta o cálculo das férias.
+    </p>
+  </header>
+
+  <div class="section-card__grid">
+    <app-input
+      label="Nome completo"
+      placeholder="Digite o nome do colaborador"
+      formControlName="employeeName"
+      hint="Ajuda na identificação do relatório final."
+      [invalid]="form().controls.employeeName.invalid && form().controls.employeeName.touched"
+      errorText="Informe o nome completo."
+    />
+
+    <app-input-select
+      label="Folga semanal"
+      formControlName="weeklyRest"
+      [options]="weeklyRestOptions"
+      hint="Escolha o dia que não será considerado no período."
+      [invalid]="form().controls.weeklyRest.invalid && form().controls.weeklyRest.touched"
+      errorText="Selecione a folga semanal."
+    />
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input-date
+        label="Data início das férias"
+        formControlName="vacationStart"
+        hint="Data inicial do descanso programado."
+        [invalid]="form().controls.vacationStart.invalid && form().controls.vacationStart.touched"
+        errorText="Informe a data de início."
+      />
+
+      <app-input-date
+        label="Data fim das férias"
+        formControlName="vacationEnd"
+        hint="Data final do período de férias."
+        [invalid]="form().controls.vacationEnd.invalid && form().controls.vacationEnd.touched"
+        errorText="Informe a data final."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input
+        label="Salário bruto mensal (R$)"
+        placeholder="Ex.: 4.000,00"
+        inputMode="decimal"
+        formControlName="monthlySalary"
+        [invalid]="form().controls.monthlySalary.invalid && form().controls.monthlySalary.touched"
+        errorText="Informe o salário mensal."
+      />
+
+      <app-input
+        label="Dias vendidos"
+        type="number"
+        inputMode="numeric"
+        min="0"
+        max="10"
+        step="1"
+        formControlName="soldDays"
+        hint="Informe a quantidade de dias convertidos em abono."
+        [invalid]="form().controls.soldDays.invalid && form().controls.soldDays.touched"
+        errorText="Os dias vendidos devem ficar entre 0 e 10."
+      />
+    </div>
+  </div>
+</section>

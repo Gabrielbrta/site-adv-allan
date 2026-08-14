@@ -1,0 +1,63 @@
+<div class="calculator-page container-sm">
+	<section class="calculator-shell">
+		<header class="calculator-hero">
+			<div class="calculator-hero__content">
+				<p class="calculator-hero__eyebrow">Veja o quanto você tem direito</p>
+				<h1>Calculadora trabalhista</h1>
+				<p>
+					As informações disponibilizadas nesta página têm caráter exclusivamente informativo e representam apenas uma estimativa inicial. Elas não substituem a análise individualizada de um advogado, que é indispensável para avaliar as particularidades de cada caso e orientar sobre os direitos e as medidas cabíveis.
+				</p>
+			</div>
+
+		</header>
+
+		<nav class="calculator-tabs" role="tablist" aria-label="Seções da calculadora">
+			<p>Selecione o item que deseja calcular:</p>
+			<div class="tabs">
+				@for (tab of tabs; track trackTab($index, tab)) {
+					<button
+						type="button"
+						class="calculator-tab"
+						[class.is-active]="activeTab() === tab.id"
+						[attr.aria-selected]="activeTab() === tab.id"
+						[attr.aria-controls]="'section-' + tab.id"
+						[id]="'tab-' + tab.id"
+						(click)="setTab(tab.id)"
+					>
+						<span>{{ tab.title }}</span>
+					</button>
+				}
+			</div>
+		</nav>
+
+		<form class="calculator-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+			<header class="calculator-form__header">
+				<div>
+					<h2>{{ currentTab().title }}</h2>
+					<!-- <p>{{ currentTab().description }}</p> -->
+				</div>
+
+				<div class="calculator-progress" aria-live="polite">
+					<span>{{ completion().percent }}%</span>
+					<small>{{ completion().filled }} de {{ completion().total }} campos</small>
+				</div>
+			</header>
+
+			@switch (activeTab()) {
+				@case ('fgts') {
+					<app-fgts-section [form]="fgtsForm" />
+				}
+				@case ('ferias') {
+					<app-ferias-section [form]="feriasForm" />
+				}
+				@case ('rescisao') {
+					<app-rescisao-section [form]="rescisaoForm" />
+				}
+			}
+
+			<footer class="calculator-form__footer">
+				<button type="submit" class="calculator-submit">Calcular</button>
+			</footer>
+		</form>
+	</section>
+</div>
