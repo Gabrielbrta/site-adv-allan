@@ -1,0 +1,88 @@
+<section id="section-rescisao" class="section-card" [formGroup]="form()">
+  <header class="section-card__header">
+    <h2>Dados da rescisão e verbas finais</h2>
+    <p>
+      Esta aba concentra os dados mais sensíveis do cálculo e foi organizada em blocos para funcionar melhor no mobile.
+    </p>
+  </header>
+
+  <div class="section-card__grid">
+    <app-input
+      label="Nome completo"
+      placeholder="Digite o nome do colaborador"
+      formControlName="employeeName"
+      [invalid]="form().controls.employeeName.invalid && form().controls.employeeName.touched"
+      errorText="Informe o nome completo."
+    />
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input-select
+        label="Situação"
+        formControlName="situation"
+        [options]="situationOptions"
+        [invalid]="form().controls.situation.invalid && form().controls.situation.touched"
+        errorText="Selecione a situação."
+      />
+      <app-input-date
+        label="Data de admissão"
+        formControlName="admissionDate"
+        [invalid]="form().controls.admissionDate.invalid && form().controls.admissionDate.touched"
+        errorText="Informe a data de admissão."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input-date
+        label="Último dia de serviço"
+        formControlName="lastServiceDate"
+        [invalid]="form().controls.lastServiceDate.invalid && form().controls.lastServiceDate.touched"
+        errorText="Informe o último dia de serviço."
+      />
+      <app-input-select
+        label="Motivo da rescisão"
+        formControlName="dismissalReason"
+        [options]="dismissalReasonOptions"
+        [invalid]="form().controls.dismissalReason.invalid && form().controls.dismissalReason.touched"
+        errorText="Selecione o motivo da rescisão."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input
+        label="Último salário (R$)"
+        placeholder="Ex.: 4.500,00"
+        inputMode="decimal"
+        formControlName="lastSalary"
+        [invalid]="form().controls.lastSalary.invalid && form().controls.lastSalary.touched"
+        errorText="Informe o último salário."
+      />
+      <app-input-select
+        label="Aviso prévio"
+        formControlName="noticeType"
+        [options]="noticeOptions"
+        [invalid]="form().controls.noticeType.invalid && form().controls.noticeType.touched"
+        errorText="Selecione o aviso prévio."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input-select
+        label="Férias vencidas?"
+        formControlName="vacationDue"
+        [options]="vacationDueOptions"
+        [invalid]="form().controls.vacationDue.invalid && form().controls.vacationDue.touched"
+        errorText="Informe se existem férias vencidas."
+      />
+      <app-input
+        label="Filhos menores de 14 anos/inválidos"
+        type="number"
+        inputMode="numeric"
+        min="0"
+        step="1"
+        formControlName="dependentsUnder14"
+        [invalid]="form().controls.dependentsUnder14.invalid && form().controls.dependentsUnder14.touched"
+        errorText="Informe um número válido."
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<label class="calc-field__label" [attr.for]="inputId()">{{ label() }}</label>
+
+<div class="calc-field__control" [class.is-invalid]="invalid()">
+  <input
+    class="calc-field__input"
+    [id]="inputId()"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [inputMode]="inputMode()"
+    [min]="min()"
+    [max]="max()"
+    [step]="step()"
+    [autocomplete]="autocomplete()"
+    [disabled]="disabled()"
+    [value]="value()"
+    [attr.aria-invalid]="invalid()"
+    [attr.aria-describedby]="describedById()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+</div>
+
+@if (hint()) {
+  <p class="calc-field__hint" [id]="inputId() + '-hint'">{{ hint() }}</p>
+}
+
+@if (invalid() && errorText()) {
+  <p class="calc-field__error" [id]="inputId() + '-error'">{{ errorText() }}</p>
+}

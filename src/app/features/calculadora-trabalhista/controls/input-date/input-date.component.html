@@ -1,0 +1,25 @@
+<label class="calc-field__label" [attr.for]="dateId()">{{ label() }}</label>
+
+<div class="calc-field__control" [class.is-invalid]="invalid()">
+  <input
+    class="calc-field__input"
+    [id]="dateId()"
+    type="date"
+    [min]="min()"
+    [max]="max()"
+    [disabled]="disabled()"
+    [value]="value()"
+    [attr.aria-invalid]="invalid()"
+    [attr.aria-describedby]="describedById()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+</div>
+
+@if (hint()) {
+  <p class="calc-field__hint" [id]="dateId() + '-hint'">{{ hint() }}</p>
+}
+
+@if (invalid() && errorText()) {
+  <p class="calc-field__error" [id]="dateId() + '-error'">{{ errorText() }}</p>
+}

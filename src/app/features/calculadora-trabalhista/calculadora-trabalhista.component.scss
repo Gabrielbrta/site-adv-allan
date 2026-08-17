@@ -1,0 +1,242 @@
+ :host {
+	display: block;
+}
+
+.calculator-page {
+	width: 100%;
+	padding: 30px 10px;
+}
+
+.calculator-shell {
+	display: grid;
+	gap: 1rem;
+	width: 100%;
+}
+
+.calculator-hero {
+	display: grid;
+	gap: 1rem;
+	padding: 1.25rem 1.25rem 0.25rem;
+}
+
+.calculator-hero__content {
+	display: grid;
+	gap: 0.5rem;
+
+	h1 {
+		color: var(--black-color);
+		font-size: 2.5rem;
+		font-weight: 700;
+		letter-spacing: -1px;
+		line-height: 1.05;
+	}
+
+	p {
+		color: rgba(30, 29, 27, 0.72);
+		line-height: 150%;
+	}
+}
+
+.calculator-hero__eyebrow,
+.calculator-form__eyebrow,
+.summary-card__eyebrow {
+	color: var(--green-color);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.calculator-hero__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+
+	span {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.65rem 0.9rem;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.85);
+		border: 1px solid rgba(30, 29, 27, 0.08);
+		color: rgba(30, 29, 27, 0.76);
+		box-shadow: 0 12px 24px rgba(30, 29, 27, 0.05);
+		font-size: 0.92rem;
+	}
+}
+
+.calculator-tabs {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 0 auto;
+
+	p {
+		padding: 5px;
+		color: rgba(30, 29, 27, 0.72);
+		font-weight: 600;
+		line-height: 150%;
+	}
+	.tabs{
+		text-align: center;
+		display: flex;
+		gap: 10px;
+
+		span {
+			text-align: center;
+		}
+	}
+}
+
+.calculator-tab {
+	display: grid;
+	gap: 0.28rem;
+	width: 100%;
+	text-align: left;
+	padding: 1rem;
+	border-radius: 20px;
+	color: gray;
+	background: rgba(255, 255, 255, 0.295);
+	border: 1px solid rgba(30, 29, 27, 0.08);
+	box-shadow: 0 0px 5px rgba(30, 29, 27, 0.06);
+	transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+	span {
+		font-size: 1rem;
+		font-weight: 700;
+	}
+
+	small {
+		color: rgba(30, 29, 27, 0.68);
+		line-height: 1.45;
+	}
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 2px 5px rgba(30, 29, 27, 0.08);
+	}
+
+	&.is-active {
+		color: var(--white-color);
+		background:var(--black-color);
+		border-color: rgba(27, 21, 2, 0.233);
+		box-shadow: 0 0px 15px rgba(30, 29, 27, 0.12);
+
+		small {
+			color: rgba(30, 29, 27, 0.72);
+		}
+	}
+}
+
+.calculator-form {
+	display: grid;
+	gap: 1.25rem;
+	padding: 1.25rem;
+	border-radius: 28px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(30, 29, 27, 0.08);
+	box-shadow: 0 24px 50px rgba(30, 29, 27, 0.08);
+}
+
+.calculator-form__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+
+	h2 {
+		color: var(--black-color);
+		font-size: clamp(1.45rem, 2vw, 2rem);
+		font-weight: 700;
+	}
+
+	p {
+		margin-top: 0.35rem;
+		color: rgba(30, 29, 27, 0.7);
+		line-height: 1.6;
+		max-width: 62ch;
+	}
+}
+
+.calculator-progress {
+	min-width: 120px;
+	padding: 0.95rem 1rem;
+	border-radius: 20px;
+	background: rgba(238, 185, 19, 0.08);
+	border: 1px solid rgba(238, 185, 19, 0.18);
+	color: var(--black-color);
+	text-align: right;
+
+	span {
+		display: block;
+		font-size: 1.6rem;
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	small {
+		margin-top: 0.25rem;
+		display: inline-block;
+		color: rgba(30, 29, 27, 0.72);
+	}
+}
+
+.calculator-form__footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.calculator-submit {
+	min-width: 180px;
+	padding: 1rem 1.35rem;
+	border-radius: 18px;
+	font-weight: 700;
+	color: var(--black-color);
+	background: linear-gradient(180deg, var(--yellow-color), #f6cf54);
+	box-shadow: 0 0px 15px rgba(238, 185, 19, 0.25);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+	&:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 5px 34px rgba(238, 185, 19, 0.28);
+	}
+}
+
+@media (max-width: 760px) {
+
+	.calculator-hero,
+	.calculator-form {
+		border-radius: 22px;
+	}
+
+	.calculator-hero {
+		padding: 0px;
+		h1 {
+			font-size: 1.8rem;
+		}
+	}
+
+	.calculator-tabs {
+		grid-template-columns: 1fr;
+	}
+
+	.calculator-tab {
+		min-height: 100%;
+	}
+
+	.calculator-form__header {
+		flex-direction: column;
+		gap: 0.9rem;
+	}
+
+	.calculator-progress {
+		width: 100%;
+		text-align: left;
+	}
+
+	.calculator-submit {
+		width: 100%;
+	}
+
+}

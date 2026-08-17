@@ -1,0 +1,36 @@
+<section id="section-fgts" class="section-card" [formGroup]="form()">
+  <header class="section-card__header">
+    <h2>Base de depósito e multa</h2>
+    <p>
+      Preencha os dados principais para estimar o saldo do fundo, o período de cálculo e a projeção da multa.
+    </p>
+  </header>
+
+  <div class="section-card__grid section-card__grid--compact">
+    <app-input
+      label="Salário base (R$)"
+      placeholder="Ex.: 3.213,00"
+      inputMode="decimal"
+      formControlName="salaryBase"
+      hint="Use o valor bruto mensal utilizado no depósito."
+      [invalid]="form().controls.salaryBase.invalid && form().controls.salaryBase.touched"
+      errorText="Informe o salário base."
+    />
+
+    <app-input-date
+      label="Data de início do contrato"
+      formControlName="contractStart"
+      hint="Data em que o vínculo começou oficialmente."
+      [invalid]="form().controls.contractStart.invalid && form().controls.contractStart.touched"
+      errorText="Informe a data de início."
+    />
+
+    <app-input-date
+      label="Data fim do contrato"
+      formControlName="contractEnd"
+      hint="Último dia considerado para o cálculo."
+      [invalid]="form().controls.contractEnd.invalid && form().controls.contractEnd.touched"
+      errorText="Informe a data final."
+    />
+  </div>
+</section>
