@@ -30,7 +30,15 @@
       formControlName="contractEnd"
       hint="Último dia considerado para o cálculo."
       [invalid]="form().controls.contractEnd.invalid && form().controls.contractEnd.touched"
-      errorText="Informe a data final."
+      [errorText]="form().controls.contractEnd.hasError('dateRange') ? 'A data final deve ser igual ou posterior à data inicial.' : 'Informe a data final.'"
+    />
+    <app-input-select
+      label="Tipo de rescisão"
+      formControlName="rescisaoType"
+      [options]="rescisaoTypeOptions"
+      hint="Define a alíquota da multa sobre o FGTS."
+      [invalid]="form().controls.rescisaoType.invalid && form().controls.rescisaoType.touched"
+      errorText="Selecione o tipo de rescisão."
     />
   </div>
 </section>
