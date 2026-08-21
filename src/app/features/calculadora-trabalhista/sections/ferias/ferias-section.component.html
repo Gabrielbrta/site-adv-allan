@@ -1,9 +1,6 @@
 <section id="section-ferias" class="section-card" [formGroup]="form()">
   <header class="section-card__header">
     <h2>Período aquisitivo e dias vendidos</h2>
-    <p>
-      Organizei a aba para reduzir ruído visual no mobile e deixar claro o que afeta o cálculo das férias.
-    </p>
   </header>
 
   <div class="section-card__grid">
@@ -14,16 +11,28 @@
       hint="Ajuda na identificação do relatório final."
       [invalid]="form().controls.employeeName.invalid && form().controls.employeeName.touched"
       errorText="Informe o nome completo."
+      [required]="true"
     />
 
-    <app-input-select
-      label="Folga semanal"
-      formControlName="weeklyRest"
-      [options]="weeklyRestOptions"
-      hint="Escolha o dia que não será considerado no período."
-      [invalid]="form().controls.weeklyRest.invalid && form().controls.weeklyRest.touched"
-      errorText="Selecione a folga semanal."
-    />
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input-date
+        label="Início do período aquisitivo"
+        formControlName="acquisitionPeriodStart"
+        hint="Data de início do período de 12 meses de trabalho."
+        [invalid]="form().controls.acquisitionPeriodStart.invalid && form().controls.acquisitionPeriodStart.touched"
+        errorText="Informe o início do período aquisitivo."
+        [required]="true"
+      />
+
+      <app-input-date
+        label="Fim do período aquisitivo"
+        formControlName="acquisitionPeriodEnd"
+        hint="Data de término do período de 12 meses de trabalho."
+        [invalid]="form().controls.acquisitionPeriodEnd.invalid && form().controls.acquisitionPeriodEnd.touched"
+        errorText="Informe o fim do período aquisitivo."
+        [required]="true"
+      />
+    </div>
 
     <div class="section-card__grid section-card__grid--two-columns">
       <app-input-date
@@ -32,6 +41,7 @@
         hint="Data inicial do descanso programado."
         [invalid]="form().controls.vacationStart.invalid && form().controls.vacationStart.touched"
         errorText="Informe a data de início."
+        [required]="true"
       />
 
       <app-input-date
@@ -40,6 +50,7 @@
         hint="Data final do período de férias."
         [invalid]="form().controls.vacationEnd.invalid && form().controls.vacationEnd.touched"
         errorText="Informe a data final."
+        [required]="true"
       />
     </div>
 
@@ -51,8 +62,70 @@
         formControlName="monthlySalary"
         [invalid]="form().controls.monthlySalary.invalid && form().controls.monthlySalary.touched"
         errorText="Informe o salário mensal."
+        [required]="true"
       />
 
+      <app-input
+        label="Faltas no período (dias)"
+        type="number"
+        inputMode="numeric"
+        min="0"
+        max="60"
+        step="1"
+        formControlName="absences"
+        hint="Total de faltas não justificadas no período aquisitivo."
+        [invalid]="form().controls.absences.invalid && form().controls.absences.touched"
+        errorText="Informe as faltas (0 a 60 dias)."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input
+        label="Média de horas extras (R$)"
+        placeholder="Ex.: 500,00"
+        inputMode="decimal"
+        formControlName="overtimeAverage"
+        hint="Média mensal dos últimos 12 meses."
+        [invalid]="form().controls.overtimeAverage.invalid && form().controls.overtimeAverage.touched"
+        errorText="Informe a média de horas extras."
+      />
+
+      <app-input
+        label="Média adicional noturno (R$)"
+        placeholder="Ex.: 300,00"
+        inputMode="decimal"
+        formControlName="nightShiftAverage"
+        hint="Média mensal dos últimos 12 meses."
+        [invalid]="form().controls.nightShiftAverage.invalid && form().controls.nightShiftAverage.touched"
+        errorText="Informe a média do adicional noturno."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+      <app-input
+        label="Média de comissões (R$)"
+        placeholder="Ex.: 800,00"
+        inputMode="decimal"
+        formControlName="commissionAverage"
+        hint="Média mensal dos últimos 12 meses."
+        [invalid]="form().controls.commissionAverage.invalid && form().controls.commissionAverage.touched"
+        errorText="Informe a média de comissões."
+      />
+
+      <app-input
+        label="Dependentes"
+        type="number"
+        inputMode="numeric"
+        min="0"
+        step="1"
+        formControlName="dependents"
+        hint="Número de dependentes para fins de salário-família."
+        [invalid]="form().controls.dependents.invalid && form().controls.dependents.touched"
+        errorText="Informe o número de dependentes."
+      />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
       <app-input
         label="Dias vendidos"
         type="number"

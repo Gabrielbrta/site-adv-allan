@@ -15,6 +15,7 @@
       hint="Use o valor bruto mensal utilizado no depósito."
       [invalid]="form().controls.salaryBase.invalid && form().controls.salaryBase.touched"
       errorText="Informe o salário base."
+      [required]="true"
     />
 
     <app-input-date
@@ -23,6 +24,7 @@
       hint="Data em que o vínculo começou oficialmente."
       [invalid]="form().controls.contractStart.invalid && form().controls.contractStart.touched"
       errorText="Informe a data de início."
+      [required]="true"
     />
 
     <app-input-date
@@ -31,6 +33,7 @@
       hint="Último dia considerado para o cálculo."
       [invalid]="form().controls.contractEnd.invalid && form().controls.contractEnd.touched"
       [errorText]="form().controls.contractEnd.hasError('dateRange') ? 'A data final deve ser igual ou posterior à data inicial.' : 'Informe a data final.'"
+      [required]="true"
     />
     <app-input-select
       label="Tipo de rescisão"
@@ -39,6 +42,7 @@
       hint="Define a alíquota da multa sobre o FGTS."
       [invalid]="form().controls.rescisaoType.invalid && form().controls.rescisaoType.touched"
       errorText="Selecione o tipo de rescisão."
+      [required]="true"
     />
   </div>
 </section>

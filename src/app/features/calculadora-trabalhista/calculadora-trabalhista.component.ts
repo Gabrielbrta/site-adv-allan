@@ -10,6 +10,8 @@ import {
   FgtsCalculationResult,
   FgtsControls,
   RescisaoControls,
+  FeriasCalculationResult,
+  FeriasCalculationParams,
 } from './calculadora-trabalhista.models';
 import { CalculationResultComponent } from './components/calculation-result/calculation-result.component';
 import { FeriasSectionComponent } from './sections/ferias/ferias-section.component';
@@ -56,12 +58,22 @@ export class CalculadoraTrabalhistaComponent {
   });
 
   readonly feriasForm = new FormGroup<FeriasControls>({
-    employeeName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    weeklyRest: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    vacationStart: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    vacationEnd: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    monthlySalary: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    soldDays: new FormControl(0, { nonNullable: true, validators: [Validators.min(0), Validators.max(10)] }),
+  employeeName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  acquisitionPeriodStart: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  acquisitionPeriodEnd: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  
+  vacationStart: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  vacationEnd: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  
+  monthlySalary: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+  overtimeAverage: new FormControl('', { nonNullable: true }),
+  nightShiftAverage: new FormControl('', { nonNullable: true }),
+  commissionAverage: new FormControl('', { nonNullable: true }),
+  
+  absences: new FormControl(0, { nonNullable: true, validators: [Validators.min(0), Validators.max(60)] }),
+  soldDays: new FormControl(0, { nonNullable: true, validators: [Validators.min(0), Validators.max(10)] }),
+  dependents: new FormControl(0, { nonNullable: true, validators: [Validators.min(0)]})
+
   });
 
   readonly rescisaoForm = new FormGroup<RescisaoControls>({
@@ -119,6 +131,9 @@ export class CalculadoraTrabalhistaComponent {
   readonly fgtsResult = signal<CalculationResultSection | null>(null);
   readonly fgtsRawResult = signal<FgtsCalculationResult | null>(null);
 
+  readonly feriasResult = signal<CalculationResultSection | null>(null);
+  readonly feriasRawResult = signal<FeriasCalculationResult | null>(null);
+
   setTab(tab: CalculadoraTabId): void {
     this.activeTab.set(tab);
     this.form.reset();
@@ -129,35 +144,45 @@ export class CalculadoraTrabalhistaComponent {
 
   
 
-  submit(): void {
+      submit(): void {
     this.form.markAllAsTouched();
 
     if (this.activeTab() === 'fgts') {
       this.fgtsForm.controls.contractEnd.setErrors(null);
     }
 
-    if (this.form.invalid) {
-      this.fgtsResult.set(null);
-      this.activeTab.set(findFirstInvalidTab(this.fgtsForm, this.feriasForm, this.rescisaoForm));
-      return;
+    const currentForm = this.activeTab() === 'fgts' 
+      ? this.fgtsForm 
+      : this.activeTab() === 'ferias' 
+        ? this.feriasForm 
+        : this.rescisaoForm;
+
+
+    if (this.activeTab() === 'fgts') {
+      const fgtsParams = buildFgtsParams(this.fgtsForm);
+      if (fgtsParams === null) {
+        this.fgtsForm.controls.contractEnd.setErrors({ dateRange: true });
+        this.fgtsForm.controls.contractEnd.markAsTouched();
+        return;
+      }
+      const fgtsResult = this.calculadoraService.fgts(fgtsParams);
+      this.fgtsResult.set(toFgtsResultSection(fgtsResult));
+      this.fgtsRawResult.set(fgtsResult);
+    } 
+    
+    else if (this.activeTab() === 'ferias') {
+      const feriasParams = buildFeriasParams(this.feriasForm);
+
+      if (feriasParams === null) {
+        console.error('FALHA NA CONVERSÃO DOS DADOS DE FÉRIAS. Verifique o console.');
+        return;
+      }
+
+      const feriasResult = this.calculadoraService.ferias(feriasParams);
+
+      this.feriasResult.set(toFeriasResultSection(feriasResult));
+      this.feriasRawResult.set(feriasResult);
     }
-
-    if (this.activeTab() !== 'fgts') {
-      return;
-    }
-
-    const fgtsParams = buildFgtsParams(this.fgtsForm);
-
-    if (fgtsParams === null) {
-      this.fgtsForm.controls.contractEnd.setErrors({ dateRange: true });
-      this.fgtsForm.controls.contractEnd.markAsTouched();
-      this.fgtsResult.set(null);
-      return;
-    }
-
-    const fgtsResult = this.calculadoraService.fgts(fgtsParams);
-    this.fgtsResult.set(toFgtsResultSection(fgtsResult));
-    this.fgtsRawResult.set(fgtsResult);
   }
 
   readonly trackTab = (_index: number, tab: CalculadoraTabDefinition) => tab.id;
@@ -278,34 +303,72 @@ function buildFgtsParams(form: FormGroup<FgtsControls>) {
   };
 }
 
-function parseBRLCurrency(value: string): number {
-  const normalizedValue = value.replace(/\s/g, '').replace('R$', '').replace(/\./g, '').replace(',', '.');
-  const parsedValue = Number(normalizedValue);
+function buildFeriasParams(form: FormGroup<FeriasControls>): FeriasCalculationParams | null {
 
-  return Number.isFinite(parsedValue) ? parsedValue : NaN;
+  const monthlySalary = parseBRLCurrency(form.controls.monthlySalary.value);
+  const acquisitionPeriodStart = parseInputDate(form.controls.acquisitionPeriodStart.value);
+  const acquisitionPeriodEnd = parseInputDate(form.controls.acquisitionPeriodEnd.value);
+  const vacationStart = parseInputDate(form.controls.vacationStart.value);
+  const vacationEnd = parseInputDate(form.controls.vacationEnd.value);
+  
+
+  if (!monthlySalary || !acquisitionPeriodStart || !acquisitionPeriodEnd || !vacationStart || !vacationEnd) {
+    return null;
+  }
+
+  return {
+    acquisitionPeriodStart,
+    acquisitionPeriodEnd,
+    vacationStart,
+    vacationEnd,
+    monthlySalary,
+    absences: form.controls.absences.value,
+    overtimeAverage: parseBRLCurrency(form.controls.overtimeAverage.value || '0'),
+    nightShiftAverage: parseBRLCurrency(form.controls.nightShiftAverage.value || '0'),
+    commissionAverage: parseBRLCurrency(form.controls.commissionAverage.value || '0'),
+    dependents: form.controls.dependents.value,
+    soldDays: form.controls.soldDays.value,
+  };
 }
 
-function parseInputDate(value: string): Date | null {
-  if (!value) {
-    return null;
+function parseBRLCurrency(value: string | number): number {
+  // Se já for número, retorna ele mesmo
+  if (typeof value === 'number') return value;
+  if (!value) return 0;
+  
+  const normalizedValue = String(value)
+    .replace(/\s/g, '')
+    .replace('R$', '')
+    .replace(/\./g, '')
+    .replace(',', '.');
+    
+  const parsedValue = Number(normalizedValue);
+  return Number.isFinite(parsedValue) ? parsedValue : 0;
+}
+
+function parseInputDate(value: string | Date | null): Date | null {
+  if (!value) return null;
+  
+  // Se o componente já retornou um objeto Date, apenas valida
+  if (value instanceof Date) {
+    return isNaN(value.getTime()) ? null : value;
   }
 
-  const [yearText, monthText, dayText] = value.split('-');
-  const year = Number(yearText);
-  const month = Number(monthText);
-  const day = Number(dayText);
-
-  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
-    return null;
+  // Se for string, tenta parsear (suporta YYYY-MM-DD ou DD/MM/YYYY)
+  if (typeof value === 'string') {
+    if (value.includes('-')) {
+      const [yearText, monthText, dayText] = value.split('-');
+      const parsed = new Date(Date.UTC(Number(yearText), Number(monthText) - 1, Number(dayText)));
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
+    if (value.includes('/')) {
+      const [dayText, monthText, yearText] = value.split('/');
+      const parsed = new Date(Date.UTC(Number(yearText), Number(monthText) - 1, Number(dayText)));
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
   }
-
-  const parsedDate = new Date(Date.UTC(year, month - 1, day));
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return null;
-  }
-
-  return parsedDate;
+  
+  return null;
 }
 
 function toFgtsResultSection(result: FgtsCalculationResult): CalculationResultSection {
@@ -329,6 +392,32 @@ function toFgtsResultSection(result: FgtsCalculationResult): CalculationResultSe
       },
     ],
     note: `${formatDecimal(result.referenceMonths)} meses de referência. Este é um cálculo aproximado. Consulte o extrato da Caixa para o valor exato.`,
+  };
+}
+
+function toFeriasResultSection(result: FeriasCalculationResult): CalculationResultSection {
+  let note = 'Este é um cálculo estimado. Descontos de IRRF não foram considerados por dependerem da média dos últimos 12 meses e outras variáveis específicas.';
+  
+  if (result.entitledDays === 0) {
+    note = '⚠️ Atenção: O colaborador perdeu o direito às férias devido ao excesso de faltas injustificadas (mais de 32 dias no período aquisitivo).';
+  } else if (result.entitledDays < 30) {
+    note = `⚠️ Atenção: Devido ao número de faltas injustificadas, o período de férias foi reduzido para ${result.entitledDays} dias conforme Art. 130 da CLT.`;
+  }
+
+  return {
+    title: 'Resultado Férias',
+    rows: [
+      { label: 'Dias de férias solicitados', value: `${result.vacationDays} dias` },
+      { label: 'Dias vendidos (Abono Pecuniário)', value: `${result.soldDays} dias` },
+      { label: 'Salário-base para cálculo', value: formatCurrencyBRL(result.baseSalary) },
+      { label: 'Valor bruto das férias', value: formatCurrencyBRL(result.vacationValue) },
+      { label: '1/3 Constitucional (Férias)', value: formatCurrencyBRL(result.oneThirdVacation) },
+      { label: 'Valor bruto do Abono', value: formatCurrencyBRL(result.abonoValue) },
+      { label: '1/3 Constitucional (Abono)', value: formatCurrencyBRL(result.oneThirdAbono) },
+      { label: 'Desconto INSS (sobre férias)', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
+      { label: 'Total Líquido Estimado', value: formatCurrencyBRL(result.totalNet), emphasize: true },
+    ],
+    note,
   };
 }
 

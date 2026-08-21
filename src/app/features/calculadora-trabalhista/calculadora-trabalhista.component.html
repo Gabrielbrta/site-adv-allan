@@ -43,35 +43,61 @@
 				</div>
 			</header>
 
+			
 			@switch (activeTab()) {
 				@case ('fgts') {
 					<app-fgts-section [form]="fgtsForm" />
-
+					<footer class="calculator-form__footer">
+						<button type="submit" class="calculator-submit">Calcular</button>
+					</footer>
+					
 					@if (fgtsResult(); as result) {
 						<app-calculation-result [section]="result" />
 					}
-
+					
 					@if (fgtsRawResult(); as raw) {
 						<div class="result-badge" [class]="'penalty-' + raw.penaltyRate">
-						@switch (raw.penaltyRate) {
-							@case (0.40) { Multa de 40% — Dispensa sem justa causa ou rescisão indireta }
-							@case (0.20) { Multa de 20% — Acordo trabalhista }
-							@default { Sem multa — Justa causa ou pedido de demissão }
-						}
+							@switch (raw.penaltyRate) {
+								@case (0.40) { Multa de 40% — Dispensa sem justa causa ou rescisão indireta }
+								@case (0.20) { Multa de 20% — Acordo trabalhista }
+								@default { Sem multa — Justa causa ou pedido de demissão }
+							}
 						</div>
 					}
 				}
-				@case ('ferias') {
+				  @case ('ferias') {
 					<app-ferias-section [form]="feriasForm" />
+					<footer class="calculator-form__footer">
+						<button type="submit" class="calculator-submit">Calcular</button>
+					</footer>
+
+					@if (feriasResult(); as result) {
+					<app-calculation-result [section]="result" />
+					}
+
+					@if (feriasRawResult(); as raw) {
+						@if (raw.entitledDays === 0) {
+							<div class="result-badge penalty-0">
+							Direito às férias perdido (Faltas > 32 dias)
+							</div>
+						} @else if (raw.entitledDays < 30) {
+							<div class="result-badge penalty-20">
+							 Período de férias reduzido para {{ raw.entitledDays }} dias devido às faltas
+							</div>
+						} @else {
+								<div class="result-badge penalty-40">
+								✅ Período de férias completo (30 dias)
+								</div>
+							}
+						}
 				}
 				@case ('rescisao') {
 					<app-rescisao-section [form]="rescisaoForm" />
+					<footer class="calculator-form__footer">
+						<button type="submit" class="calculator-submit">Calcular</button>
+					</footer>
 				}
 			}
-
-			<footer class="calculator-form__footer">
-				<button type="submit" class="calculator-submit">Calcular</button>
-			</footer>
 		</form>
 	</section>
 </div>

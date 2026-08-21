@@ -29,7 +29,7 @@ export class InputSelectComponent implements ControlValueAccessor {
   readonly value = signal('');
   readonly invalid = input(false);
   readonly errorText = input('');
-
+  readonly required = input<boolean>(false);
   private readonly fallbackId = `calc-select-${nextSelectId++}`;
   readonly selectId = computed(() => this.fallbackId);
   readonly describedById = computed(() => {

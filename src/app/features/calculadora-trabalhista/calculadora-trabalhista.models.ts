@@ -56,11 +56,46 @@ export interface CalculationResultSection {
 
 export interface FeriasControls {
   employeeName: FormControl<string>;
-  weeklyRest: FormControl<string>;
+  acquisitionPeriodStart: FormControl<string>;
+  acquisitionPeriodEnd: FormControl<string>;
   vacationStart: FormControl<string>;
   vacationEnd: FormControl<string>;
   monthlySalary: FormControl<string>;
+  overtimeAverage: FormControl<string>;
+  nightShiftAverage: FormControl<string>;
+  commissionAverage: FormControl<string>;
+  absences: FormControl<number>;
   soldDays: FormControl<number>;
+  dependents: FormControl<number>;
+}
+
+export interface FeriasCalculationParams {
+  acquisitionPeriodStart: Date;
+  acquisitionPeriodEnd: Date;
+  vacationStart: Date;
+  vacationEnd: Date;
+  monthlySalary: number;
+  absences: number;
+  overtimeAverage: number;
+  nightShiftAverage: number;
+  commissionAverage: number;
+  dependents: number;
+  soldDays: number;
+}
+
+export interface FeriasCalculationResult {
+  entitledDays: number;         
+  vacationDays: number;         
+  soldDays: number;             
+  baseSalary: number;           
+  dailyRate: number;            
+  vacationValue: number;        
+  oneThirdVacation: number;     
+  abonoValue: number;           
+  oneThirdAbono: number;        
+  totalGross: number;           
+  inssDiscount: number;         
+  totalNet: number;             
 }
 
 export interface RescisaoControls {
