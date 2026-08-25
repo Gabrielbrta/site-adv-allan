@@ -16,7 +16,7 @@ export class RescisaoSectionComponent {
 
   readonly situationOptions = [
     { label: 'Não, já saiu', value: 'nao_ja_saiu' },
-    { label: 'Ainda está ativo', value: 'ativo' },
+    { label: 'Ainda estou na empresa', value: 'ativo' },
   ] as const;
 
   readonly dismissalReasonOptions = [

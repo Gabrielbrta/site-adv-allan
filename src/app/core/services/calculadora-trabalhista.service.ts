@@ -4,6 +4,8 @@ import {
   FeriasCalculationResult,
   FgtsCalculationParams,
   FgtsCalculationResult,
+  RescisaoCalculationParams,
+  RescisaoCalculationResult,
 } from '../../features/calculadora-trabalhista/calculadora-trabalhista.models';
 
 @Injectable({ providedIn: 'root' })
@@ -165,8 +167,111 @@ export class CalculadoraTrabalhistaService {
     
     return count;
   }
+
+  rescisao(params: RescisaoCalculationParams): RescisaoCalculationResult {
+    const workedDays = params.lastServiceDate.getDate();
+    const dailyRate = params.lastSalary / 30;
+    const salaryBalance = roundCurrency(dailyRate * workedDays);
+
+    let noticePeriodDays = 0;
+    let noticePeriodValue = 0;
+    
+    if (params.noticeType === 'indenizado') {
+      const yearsWorked = this.calculateYearsWorked(params.admissionDate, params.lastServiceDate);
+      noticePeriodDays = 30 + (yearsWorked * 3);
+      noticePeriodDays = Math.min(noticePeriodDays, 90);
+      noticePeriodValue = roundCurrency((params.lastSalary / 30) * noticePeriodDays);
+    } else if (params.noticeType === 'trabalhado') {
+      noticePeriodDays = 30;
+      noticePeriodValue = 0;
+    }
+
+    let vacationExpired = 0;
+    let vacationExpiredThird = 0;
+    
+    if (params.vacationDue) {
+      vacationExpired = params.lastSalary;
+      vacationExpiredThird = roundCurrency(vacationExpired / 3);
+    }
+
+    const monthsWorked = this.countReferenceMonths(params.admissionDate, params.lastServiceDate);
+    const proportionalMonths = monthsWorked % 12;
+    
+    let vacationProportional = 0;
+    let vacationProportionalThird = 0;
+    
+    if (proportionalMonths > 0 && params.dismissalReason !== 'com_justa_causa') {
+      vacationProportional = roundCurrency((params.lastSalary / 12) * proportionalMonths);
+      vacationProportionalThird = roundCurrency(vacationProportional / 3);
+    }
+
+    let thirteenthProportional = 0;
+    
+    if (params.dismissalReason !== 'com_justa_causa') {
+      thirteenthProportional = roundCurrency((params.lastSalary / 12) * proportionalMonths);
+    }
+
+    let fgtsFine = 0;
+    const estimatedFGTS = params.lastSalary * 0.08 * monthsWorked;
+    
+    if (params.dismissalReason === 'sem_justa_causa' || params.dismissalReason === 'resc_indireta') {
+      fgtsFine = roundCurrency(estimatedFGTS * 0.40);
+    } 
+
+    const totalGross = roundCurrency(
+      salaryBalance + 
+      noticePeriodValue + 
+      vacationExpired + 
+      vacationExpiredThird + 
+      vacationProportional + 
+      vacationProportionalThird + 
+      thirteenthProportional + 
+      fgtsFine
+    );
+
+    const inssBase = salaryBalance + noticePeriodValue;
+    const inssDiscount = this.calculateProgressiveINSS(inssBase);
+
+    const totalNet = roundCurrency(totalGross - inssDiscount);
+
+    const dismissalReasonLabel = this.getDismissalReasonLabel(params.dismissalReason);
+
+    return {
+      workedDays,
+      salaryBalance,
+      noticePeriodDays,
+      noticePeriodValue,
+      vacationExpired,
+      vacationExpiredThird,
+      vacationProportional,
+      vacationProportionalThird,
+      thirteenthProportional,
+      fgtsFine,
+      totalGross,
+      inssDiscount,
+      totalNet,
+      dismissalReason: dismissalReasonLabel,
+    };
+  }
+
+  private getDismissalReasonLabel(reason: string): string {
+    switch (reason) {
+      case 'sem_justa_causa': return 'Dispensa sem justa causa';
+      case 'com_justa_causa': return 'Dispensa com justa causa';
+      case 'pedido_demissao': return 'Pedido de demissão';
+      case 'resc_indireta': return 'Rescisão indireta';
+      default: return reason;
+    }
+  }
+
+  private calculateYearsWorked(startDate: Date, endDate: Date): number {
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.floor(diffDays / 365);
+  }
 }
 
 function roundCurrency(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
+

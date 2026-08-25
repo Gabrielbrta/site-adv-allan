@@ -7,7 +7,7 @@ import { FeriasControls } from '../../calculadora-trabalhista.models';
 
 @Component({
   selector: 'app-ferias-section',
-  imports: [ReactiveFormsModule, InputComponent, InputSelectComponent, InputDateComponent],
+  imports: [ReactiveFormsModule, InputComponent, InputDateComponent],
   templateUrl: './ferias-section.component.html',
   styleUrl: './ferias-section.component.scss',
 })

@@ -96,6 +96,10 @@
 					<footer class="calculator-form__footer">
 						<button type="submit" class="calculator-submit">Calcular</button>
 					</footer>
+
+					 @if (rescisaoResult(); as result) {
+						<app-calculation-result [section]="result" />
+					}
 				}
 			}
 		</form>

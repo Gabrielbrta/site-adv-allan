@@ -12,11 +12,14 @@ import {
   RescisaoControls,
   FeriasCalculationResult,
   FeriasCalculationParams,
+  RescisaoCalculationResult,
+  RescisaoCalculationParams,
 } from './calculadora-trabalhista.models';
 import { CalculationResultComponent } from './components/calculation-result/calculation-result.component';
 import { FeriasSectionComponent } from './sections/ferias/ferias-section.component';
 import { FgtsSectionComponent } from './sections/fgts/fgts-section.component';
 import { RescisaoSectionComponent } from './sections/rescisao/rescisao-section.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-calculadora-trabalhista',
@@ -31,6 +34,7 @@ import { RescisaoSectionComponent } from './sections/rescisao/rescisao-section.c
   styleUrl: './calculadora-trabalhista.component.scss',
 })
 export class CalculadoraTrabalhistaComponent {
+
   private readonly calculadoraService = inject(CalculadoraTrabalhistaService);
 
   readonly tabs: readonly CalculadoraTabDefinition[] = [
@@ -85,7 +89,6 @@ export class CalculadoraTrabalhistaComponent {
     lastSalary: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     noticeType: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     vacationDue: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    dependentsUnder14: new FormControl(0, { nonNullable: true, validators: [Validators.min(0)] }),
   });
 
   readonly form = new FormGroup({
@@ -94,7 +97,7 @@ export class CalculadoraTrabalhistaComponent {
     rescisao: this.rescisaoForm,
   });
 
-  constructor() {
+  constructor(private title: Title, private meta: Meta) {
     this.syncActiveGroup(this.activeTab());
   }
 
@@ -134,11 +137,18 @@ export class CalculadoraTrabalhistaComponent {
   readonly feriasResult = signal<CalculationResultSection | null>(null);
   readonly feriasRawResult = signal<FeriasCalculationResult | null>(null);
 
+  readonly rescisaoResult = signal<CalculationResultSection | null>(null);
+  readonly rescisaoRawResult = signal<RescisaoCalculationResult | null>(null);
+
   setTab(tab: CalculadoraTabId): void {
     this.activeTab.set(tab);
     this.form.reset();
     this.fgtsResult.set(null);
     this.fgtsRawResult.set(null);
+    this.feriasResult.set(null);
+    this.feriasRawResult.set(null);
+    this.rescisaoResult.set(null);
+    this.rescisaoRawResult.set(null);
     this.syncActiveGroup(tab);
   }
 
@@ -182,6 +192,15 @@ export class CalculadoraTrabalhistaComponent {
 
       this.feriasResult.set(toFeriasResultSection(feriasResult));
       this.feriasRawResult.set(feriasResult);
+    }
+
+    else if (this.activeTab() === 'rescisao') {
+      const rescisaoParams = buildRescisaoParams(this.rescisaoForm);
+      if (rescisaoParams === null) {return;}
+
+      const rescisaoResult = this.calculadoraService.rescisao(rescisaoParams);
+      this.rescisaoResult.set(toRescisaoResultSection(rescisaoResult));
+      this.rescisaoRawResult.set(rescisaoResult);
     }
   }
 
@@ -435,6 +454,47 @@ function formatCurrencyBRL(value: number): string {
 
 function formatDecimal(value: number): string {
   return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+}
+
+function buildRescisaoParams(form: FormGroup<RescisaoControls>): RescisaoCalculationParams | null {
+  const raw = form.getRawValue();
+
+  const lastSalary = parseBRLCurrency(raw.lastSalary);
+  const admissionDate = parseInputDate(raw.admissionDate);
+  const lastServiceDate = parseInputDate(raw.lastServiceDate);
+
+  if (!lastSalary || lastSalary <= 0 || !admissionDate || !lastServiceDate) {
+    return null;
+  }
+
+  return {
+    admissionDate,
+    lastServiceDate,
+    dismissalReason: raw.dismissalReason as any,
+    lastSalary,
+    noticeType: raw.noticeType as any,
+    vacationDue: raw.vacationDue === 'sim',
+  };
+}
+
+function toRescisaoResultSection(result: RescisaoCalculationResult): CalculationResultSection {
+  return {
+    title: 'Resultado da Rescisão',
+    rows: [
+      { label: 'Dias trabalhados no último mês', value: `${result.workedDays} dias` },
+      { label: 'Saldo de salário', value: formatCurrencyBRL(result.salaryBalance) },
+      { label: 'Aviso prévio', value: `${result.noticePeriodDays} dias - ${formatCurrencyBRL(result.noticePeriodValue)}` },
+      { label: 'Férias vencidas', value: formatCurrencyBRL(result.vacationExpired) },
+      { label: '1/3 Férias vencidas', value: formatCurrencyBRL(result.vacationExpiredThird) },
+      { label: 'Férias proporcionais', value: formatCurrencyBRL(result.vacationProportional) },
+      { label: '1/3 Férias proporcionais', value: formatCurrencyBRL(result.vacationProportionalThird) },
+      { label: '13º salário proporcional', value: formatCurrencyBRL(result.thirteenthProportional) },
+      { label: 'Multa FGTS (40%)', value: formatCurrencyBRL(result.fgtsFine) },
+      { label: 'Desconto INSS', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
+      { label: 'Total líquido estimado', value: formatCurrencyBRL(result.totalNet), emphasize: true },
+    ],
+    note: `Motivo: ${result.dismissalReason}. Este é um cálculo aproximado. Consulte um advogado para análise detalhada.`,
+  };
 }
 
 

@@ -107,5 +107,30 @@ export interface RescisaoControls {
   lastSalary: FormControl<string>;
   noticeType: FormControl<string>;
   vacationDue: FormControl<string>;
-  dependentsUnder14: FormControl<number>;
+}
+
+export interface RescisaoCalculationParams {
+  admissionDate: Date;
+  lastServiceDate: Date;
+  dismissalReason: 'sem_justa_causa' | 'com_justa_causa' | 'pedido_demissao' | 'resc_indireta';
+  lastSalary: number;
+  noticeType: 'indenizado' | 'trabalhado' | 'dispensado';
+  vacationDue: boolean;
+}
+
+export interface RescisaoCalculationResult {
+  workedDays: number;
+  salaryBalance: number;
+  noticePeriodDays: number;
+  noticePeriodValue: number;
+  vacationExpired: number;
+  vacationExpiredThird: number;
+  vacationProportional: number;
+  vacationProportionalThird: number;
+  thirteenthProportional: number;
+  fgtsFine: number;
+  totalGross: number;
+  inssDiscount: number;
+  totalNet: number;
+  dismissalReason: string;
 }

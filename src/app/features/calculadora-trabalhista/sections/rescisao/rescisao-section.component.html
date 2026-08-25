@@ -73,16 +73,6 @@
         [invalid]="form().controls.vacationDue.invalid && form().controls.vacationDue.touched"
         errorText="Informe se existem férias vencidas."
       />
-      <app-input
-        label="Filhos menores de 14 anos/inválidos"
-        type="number"
-        inputMode="numeric"
-        min="0"
-        step="1"
-        formControlName="dependentsUnder14"
-        [invalid]="form().controls.dependentsUnder14.invalid && form().controls.dependentsUnder14.touched"
-        errorText="Informe um número válido."
-      />
     </div>
   </div>
 </section>

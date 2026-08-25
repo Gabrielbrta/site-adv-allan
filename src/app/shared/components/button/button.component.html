@@ -1,6 +1,8 @@
 <div class="button-container">
     @if(routerLink() !== '') {
         <a [routerLink]="routerLink()" class="btn-contact btn-primary"
+        target="_blank"
+        rel="noopener noreferrer"
         [class.green]="style() === 'green'"
         [class.white]="style() === 'white'"
         [class.black]="style() === 'black'"
@@ -14,6 +16,8 @@
     
     @if(href() !== ''){
         <a [href]="href() ?? '#'" class="btn-contact btn-primary"
+        target="_blank"
+        rel="noopener noreferrer"
         [class.green]="style() === 'green'"
         [class.white]="style() === 'white'"
         [class.black]="style() === 'black'"
