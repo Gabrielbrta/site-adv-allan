@@ -38,12 +38,6 @@ footer {
                 height: 100%;
             }
 
-            .item-footer {
-                img.logo {
-                    min-width: 300px;
-                }
-            }
-
         }
 
         h2 {
@@ -58,7 +52,8 @@ footer {
             gap: 10px;
             justify-content: start;
             img {
-                max-width: 172px;
+                width: 100%;
+                // max-width: 172px;
             }
         }
     }
