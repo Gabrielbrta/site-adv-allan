@@ -1,5 +1,6 @@
 :host {
   display: block;
+  min-width: 0;
 }
 
 .section-card {
@@ -48,12 +49,20 @@
 //   grid-column: 1 / -1;
 // }
 
+.section-card__grid--compact > * {
+  min-width: 0;
+}
+
 @media (max-width: 760px) {
-  .section-card__grid--compact {
-    grid-template-columns: 1fr;
+  .section-card {
+    border-radius: 20px;
   }
 
-  // .section-card__grid--compact app-input-date:last-child {
-  //   grid-column: auto;
-  // }
+  .section-card__grid--compact {
+    grid-template-columns: minmax(0, 1fr); /* ← nunca 1fr puro */
+  }
+
+  .section-card__grid--compact app-input-date:last-child {
+    grid-column: auto;
+  }
 }
