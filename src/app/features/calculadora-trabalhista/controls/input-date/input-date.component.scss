@@ -65,3 +65,9 @@
 .red {
   color: #b42318;
 }
+
+
+.calc-field__input[type="date"] {
+  -webkit-appearance: auto;
+  appearance: auto;
+}
