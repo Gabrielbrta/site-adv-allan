@@ -12,6 +12,7 @@
       placeholder="Digite o nome do colaborador"
       formControlName="employeeName"
       [invalid]="form().controls.employeeName.invalid && form().controls.employeeName.touched"
+      [required]="true"
       errorText="Informe o nome completo."
     />
 
@@ -21,12 +22,14 @@
         formControlName="situation"
         [options]="situationOptions"
         [invalid]="form().controls.situation.invalid && form().controls.situation.touched"
+        [required]="true"
         errorText="Selecione a situação."
       />
       <app-input-date
         label="Data de admissão"
         formControlName="admissionDate"
         [invalid]="form().controls.admissionDate.invalid && form().controls.admissionDate.touched"
+        [required]="true"
         errorText="Informe a data de admissão."
       />
     </div>
@@ -36,6 +39,7 @@
         label="Último dia de serviço"
         formControlName="lastServiceDate"
         [invalid]="form().controls.lastServiceDate.invalid && form().controls.lastServiceDate.touched"
+        [required]="true"
         errorText="Informe o último dia de serviço."
       />
       <app-input-select
@@ -43,6 +47,7 @@
         formControlName="dismissalReason"
         [options]="dismissalReasonOptions"
         [invalid]="form().controls.dismissalReason.invalid && form().controls.dismissalReason.touched"
+        [required]="true"
         errorText="Selecione o motivo da rescisão."
       />
     </div>
@@ -53,12 +58,14 @@
         placeholder="Ex.: 4.500,00"
         inputMode="decimal"
         formControlName="lastSalary"
+        [required]="true"
         [invalid]="form().controls.lastSalary.invalid && form().controls.lastSalary.touched"
         errorText="Informe o último salário."
       />
       <app-input-select
         label="Aviso prévio"
         formControlName="noticeType"
+        [required]="true"
         [options]="noticeOptions"
         [invalid]="form().controls.noticeType.invalid && form().controls.noticeType.touched"
         errorText="Selecione o aviso prévio."
@@ -70,6 +77,7 @@
         label="Férias vencidas?"
         formControlName="vacationDue"
         [options]="vacationDueOptions"
+        [required]="true"
         [invalid]="form().controls.vacationDue.invalid && form().controls.vacationDue.touched"
         errorText="Informe se existem férias vencidas."
       />
