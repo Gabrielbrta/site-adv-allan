@@ -1,0 +1,18 @@
+<section class="result-panel" aria-live="polite">
+  <header class="result-panel__header">
+    <h3>{{ section().title }}</h3>
+  </header>
+
+  <div class="result-panel__list" role="list">
+    @for (row of section().rows; track rowTrack($index, row)) {
+      <div class="result-panel__row" role="listitem" [class.is-emphasize]="row.emphasize">
+        <span>{{ row.label }}</span>
+        <strong>{{ row.value }}</strong>
+      </div>
+    }
+  </div>
+
+  @if (section().note) {
+    <p class="result-panel__note">{{ section().note }}</p>
+  }
+</section>

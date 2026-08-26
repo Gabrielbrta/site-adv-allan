@@ -1,4 +1,6 @@
-<label class="calc-field__label" [attr.for]="inputId()">{{ label() }}</label>
+<label class="calc-field__label" [attr.for]="inputId()">{{ label() }} <span class="red">
+  {{required() === true ? '*': ''}}
+</span></label>
 
 <div class="calc-field__control" [class.is-invalid]="invalid()">
   <input

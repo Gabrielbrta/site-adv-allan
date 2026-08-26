@@ -7,16 +7,11 @@ import { FeriasControls } from '../../calculadora-trabalhista.models';
 
 @Component({
   selector: 'app-ferias-section',
-  imports: [ReactiveFormsModule, InputComponent, InputSelectComponent, InputDateComponent],
+  imports: [ReactiveFormsModule, InputComponent, InputDateComponent],
   templateUrl: './ferias-section.component.html',
   styleUrl: './ferias-section.component.scss',
 })
 export class FeriasSectionComponent {
   readonly form = input.required<FormGroup<FeriasControls>>();
 
-  readonly weeklyRestOptions = [
-    { label: 'Domingo', value: 'domingo' },
-    { label: 'Final de semana', value: 'final_de_semana' },
-    { label: 'Outro dia', value: 'outro_dia' },
-  ] as const;
 }

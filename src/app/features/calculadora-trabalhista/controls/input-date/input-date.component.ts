@@ -28,7 +28,7 @@ export class InputDateComponent implements ControlValueAccessor {
   readonly value = signal('');
   readonly invalid = input(false);
   readonly errorText = input('');
-
+  readonly required = input<boolean>(false);
   private readonly fallbackId = `calc-date-${nextDateId++}`;
   readonly dateId = computed(() => this.fallbackId);
   readonly describedById = computed(() => {

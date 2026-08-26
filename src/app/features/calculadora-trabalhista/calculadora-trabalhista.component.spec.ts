@@ -19,4 +19,31 @@ describe('CalculadoraTrabalhistaComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should calculate FGTS result when the active tab is valid', () => {
+    component.fgtsForm.setValue({
+      salaryBase: 'R$ 4.500,00',
+      contractStart: '2024-01-01',
+      contractEnd: '2024-12-31',
+    });
+
+    component.submit();
+
+    expect(component.fgtsResult()).not.toBeNull();
+    expect(component.fgtsResult()?.title).toBe('Resultado FGTS');
+    expect(component.fgtsResult()?.rows.length).toBe(3);
+  });
+
+  it('should not calculate FGTS when contract end is before contract start', () => {
+    component.fgtsForm.setValue({
+      salaryBase: 'R$ 4.500,00',
+      contractStart: '2024-12-31',
+      contractEnd: '2024-01-01',
+    });
+
+    component.submit();
+
+    expect(component.fgtsResult()).toBeNull();
+    expect(component.fgtsForm.controls.contractEnd.hasError('dateRange')).toBeTrue();
+  });
 });

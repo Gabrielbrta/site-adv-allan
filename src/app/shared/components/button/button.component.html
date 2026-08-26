@@ -1,19 +1,25 @@
 <div class="button-container">
     @if(routerLink() !== '') {
         <a [routerLink]="routerLink()" class="btn-contact btn-primary"
+        target="_blank"
+        [aria-label]="text() + 'Irá abrir em uma nova aba'"
+        rel="noopener noreferrer"
         [class.green]="style() === 'green'"
         [class.white]="style() === 'white'"
         [class.black]="style() === 'black'"
         >
             {{text()}}
             @if(icon() !== '') {
-                <img [src]="icon()" [alt]="alt() ?? ''">
+                <img [src]="icon()" [alt]="alt() ?? ''" aria-hidden="true">
             }
         </a>
     }
     
     @if(href() !== ''){
         <a [href]="href() ?? '#'" class="btn-contact btn-primary"
+        target="_blank"
+        [aria-label]="text() + 'Irá abrir em uma nova aba'"
+        rel="noopener noreferrer"
         [class.green]="style() === 'green'"
         [class.white]="style() === 'white'"
         [class.black]="style() === 'black'"
@@ -21,7 +27,7 @@
         >
             {{text()}}
             @if(icon() !== '') {
-                <img [src]="icon()" [alt]="alt() ?? ''">
+                <img [src]="icon()" [alt]="alt() ?? ''" aria-hidden="true">
             }
         </a>
     }
