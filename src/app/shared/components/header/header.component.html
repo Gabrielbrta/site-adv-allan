@@ -2,23 +2,38 @@
     <div class="topbar-container">
         <div class="container wrap">
             <div class="contacts">
-                <a href="https://www.google.com/maps/search/?api=1&query=Av.+Presidente+Wilson+7+Santos+SP" target="_blank" rel="noopener noreferrer">
-                    <span><img src="icons/location.svg" alt="icone de uma pin de localicação"> </span>Endereço
+                <a href="https://www.google.com/maps/search/?api=1&query=Av.+Presidente+Wilson+7+Santos+SP" target="_blank" rel="noopener noreferrer"
+                aria-label="Abrir o google maps em uma nova aba"
+                >
+                    <span><img src="icons/location.svg" alt="icone de uma pin de localicação" aria-hidden="true"> </span>Endereço
                 </a>
-                <a href="tel:13996899084"  rel="noopener noreferrer">
-                    <span><img src="icons/icone-telefone-whatsapp-advogado.svg" alt="icone de um telefone"> </span>Contato
+                <a href="tel:13996899084"  rel="noopener noreferrer"
+                aria-label="Telefonar para Allan Silva Rodrigues"
+                >
+                    <span><img src="icons/icone-telefone-whatsapp-advogado.svg" alt="icone de um telefone" aria-hidden="true"> </span>Contato
                 </a>
             </div>
             <div class="socials">
                 <p>Siga-nos:</p>
-                <a href="https://www.instagram.com/allanrodrigues.adv/" target="_blank"  rel="noopener noreferrer">
-                    <img src="icons/instagram.svg" alt="icone do instagram">
+                <a href="https://www.instagram.com/allanrodrigues.adv/" 
+                target="_blank"  
+                rel="noopener noreferrer"
+                aria-label="Abrir o instagram em uma nova aba"
+                >
+                    <img src="icons/instagram.svg" alt="icone do instagram" aria-hidden="true">
                 </a>
-                <a href="https://www.tiktok.com/@allan.rodrigues.adv" target="_blank"  rel="noopener noreferrer">
-                    <img src="icons/tiktok.svg" alt="icone do tiktok">
+                <a href="https://www.tiktok.com/@allan.rodrigues.adv" 
+                target="_blank"  
+                rel="noopener noreferrer"
+                aria-label="Abrir o tiktok em uma nova aba"
+                >
+                    <img src="icons/tiktok.svg" alt="icone do tiktok" aria-hidden="true">
                 </a>
-                <a href="https://www.linkedin.com/in/allan-rodrigues-3a29b333b/" target="_blank"  rel="noopener noreferrer">
-                    <img src="icons/linkedin.svg" alt="icone do linkedin">
+                <a href="https://www.linkedin.com/in/allan-rodrigues-3a29b333b/" target="_blank"  
+                rel="noopener noreferrer"
+                aria-label="Abrir o linkedin em uma nova aba"
+                >
+                    <img src="icons/linkedin.svg" alt="icone do linkedin" aria-hidden="true">
                 </a>
             </div>
         </div>
@@ -27,7 +42,7 @@
         <div class="container">
             <div class="logo">
                 <a href="">
-                    <img src="icons/logo.svg" alt="logo do alan advocacia">
+                    <img src="icons/logo.svg" alt="logo do alan advocacia" aria-hidden="true">
                 </a>
             </div>
             <nav class="menu-container">
@@ -37,10 +52,16 @@
 
                 <ul class="menu-items-container" [class.open]="isMobileMenuOpen">
                     <div class="items">
-                        <li><a routerLink="sobre" (click)="closeMobileMenu()">Sobre Nós</a></li>
-                        <li><a routerLink="calculadora-trabalhista" (click)="closeMobileMenu()">Calculadora trabalhista</a></li>
-                        <li><a routerLink="areas-de-atuacao" (click)="closeMobileMenu()">Áreas de Atuação</a></li>
-                        <li><a routerLink="contato" (click)="closeMobileMenu()">Contato</a></li>
+                        <li><a routerLink="sobre" (click)="closeMobileMenu()" aria-label="Ir para a página Sobre nós">Sobre Nós</a></li>
+                        <li><a routerLink="calculadora-trabalhista" (click)="closeMobileMenu()"
+                        aria-label="Ir para a página Calculadora trabalhista"
+                            >Calculadora trabalhista</a></li>
+                        <li><a routerLink="areas-de-atuacao" (click)="closeMobileMenu()"
+                        aria-label="Ir para a página Áreas de atuação"
+                            >Áreas de Atuação</a></li>
+                        <li><a routerLink="contato" (click)="closeMobileMenu()"
+                        aria-label="Ir para a página Contato"
+                            >Contato</a></li>
                     </div>
                     <div class="button">
                         <app-button

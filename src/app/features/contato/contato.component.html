@@ -1,4 +1,4 @@
-<section id="contato">
+<section id="contato" aria-labelledby="titulo-contato">
     <div class="container-contato container-sm">
         <h1>Fale conosco</h1>
         <p>Nossa equipe está preparada para atender você com agilidade, atenção e compromisso. Utilize um dos nossos canais de atendimento e conte com uma assessoria jurídica personalizada para esclarecer suas dúvidas e encontrar a melhor solução para o seu caso.</p>
@@ -7,39 +7,43 @@
             <div class="card-container">
                 <article class="card">
                     <div class="img-container">
-                        <img src="icons/icone-telefone-whatsapp-advogado.svg" alt="icone de um telefone">
+                        <img src="icons/icone-telefone-whatsapp-advogado.svg" alt="icone de um telefone" aria-hidden="true">
                     </div>
                     <h2>Telefone</h2>
                     <ul>
                         <li>
-                            <a href="tel:+551396899084" type="tel">
+                            <a href="tel:+551396899084">
                                 <p>(13) 99689-9084</p>
                             </a>
                             <a href="https://wa.me/+551396899084" class="icon-container"
                             target="_blank"
+                            aria-label="Abrir whatsapp em uma nova aba"
                             >
-                                <img src="icons/whatsapp-green.svg" alt="icone do whatsapp"></a>
+                                <img src="icons/whatsapp-green.svg" alt="icone do whatsapp" aria-hidden="true"></a>
                         </li>
                         <li>
-                            <a href="tel:+5513996349939" type="tel">
+                            <a href="tel:+5513996349939">
                                 <p>(13) 99634-9939</p>
                             </a>
                             <a href="https://wa.me/+5513996349939" 
                             target="_blank"
+                            aria-label="Abrir whatsapp em uma nova aba"
                             class="icon-container">
-                                <img src="icons/whatsapp-green.svg" alt="icone do whatsapp">
+                                <img src="icons/whatsapp-green.svg" alt="icone do whatsapp" aria-hidden="true">
                             </a>
                         </li>
                     </ul>
                 </article>
                 <article class="card">
                     <div class="img-container">
-                        <img src="icons/mail-black.svg" alt="icone de uma carta">
+                        <img src="icons/mail-black.svg" alt="icone de uma carta" aria-hidden="true">
                     </div>
                     <h2>E-mail</h2>
                     <ul>
                         <li>
-                            <a href="mailto:allansilvarodrigues2@gmail.com" type="mail">
+                            <a href="mailto:allansilvarodrigues2@gmail.com"
+                            aria-label="Enviar e-mail para Allan Silva Rodriguês"
+                            >
                                 allansilvarodrigues2@gmail.com
                             </a>
                         </li>
@@ -47,18 +51,21 @@
                 </article>
                 <article class="card">
                     <div class="img-container">
-                        <img src="icons/location.svg" alt="icone de um pin de localização">
+                        <img src="icons/location.svg" alt="icone de um pin de localização" aria-hidden="true"> 
                     </div>
                     <h2>Endereço</h2>
-                    <ul>
-                        <li>
-                            Av. Presidente Wilson, n° 7, sobreloja 6, Santos, São Paulo, Brasil — 11065-200
-                        </li>
-                        <li class="light-item">
-                            <img src="icons/clock.svg" alt="icone de um relógio">
-                            <p>Seg. a sex., 9h às 18h</p>
-                        </li>
-                    </ul>
+                    <address>
+
+                        <ul>
+                            <li>
+                                Av. Presidente Wilson, n° 7, sobreloja 6, Santos, São Paulo, Brasil — 11065-200
+                            </li>
+                            <li class="light-item">
+                                <img src="icons/clock.svg" alt="icone de um relógio" aria-hidden="true">
+                                <p>Seg. a sex., 9h às 18h</p>
+                            </li>
+                        </ul>
+                    </address>
                 </article>
             </div>
             <div class="map-container">
@@ -66,7 +73,9 @@
                  <div class="map-actions">
                     <p>Av. Presidente Wilson, n° 7, sobreloja 6, Santos, São Paulo, Brasil — 11065-200</p>
 
-                    <a href="https://www.google.com/maps/search/?api=1&query=Av.+Presidente+Wilson+7+Santos+SP" class="open-map" target="_blank">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Av.+Presidente+Wilson+7+Santos+SP" class="open-map" target="_blank"
+                    aria-label="Abrir google maps em outra aba"
+                    >
                         Abrir no Maps
                     </a>
                  </div>
