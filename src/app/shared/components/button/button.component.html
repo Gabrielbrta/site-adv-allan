@@ -1,8 +1,8 @@
 <div class="button-container">
     @if(routerLink() !== '') {
         <a [routerLink]="routerLink()" class="btn-contact btn-primary"
-        target="_blank"
         [aria-label]="text() + 'Irá abrir em uma nova aba'"
+        target="_self"
         rel="noopener noreferrer"
         [class.green]="style() === 'green'"
         [class.white]="style() === 'white'"

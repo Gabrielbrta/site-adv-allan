@@ -41,7 +41,7 @@
     <div class="content">
         <div class="container">
             <div class="logo">
-                <a href="">
+                <a href="/" aria-label="Ir para a página inicial">
                     <img src="icons/logo.svg" alt="logo do alan advocacia" aria-hidden="true">
                 </a>
             </div>
@@ -63,16 +63,18 @@
                         aria-label="Ir para a página Contato"
                             >Contato</a></li>
                     </div>
-                    <div class="button">
-                        <app-button
-                        [text]="'ENTRAR EM CONTATO'"
-                        [href]="'https://wa.me/+551396899084'"
-                        [icon]="'icons/whatsapp-black.svg'"
-                        [alt]="'icone do whatsapp'"
-                        [style]="'white'"
-                        >
-                        </app-button>
-                    </div>
+                    <li>
+                        <div class="button">
+                            <app-button
+                            [text]="'ENTRAR EM CONTATO'"
+                            [href]="'https://wa.me/+551396899084'"
+                            [icon]="'icons/whatsapp-black.svg'"
+                            [alt]="'icone do whatsapp'"
+                            [style]="'white'"
+                            >
+                            </app-button>
+                        </div>
+                    </li>
                     
                 </ul>
             </nav>

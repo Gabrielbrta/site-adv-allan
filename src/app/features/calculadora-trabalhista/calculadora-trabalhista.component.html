@@ -21,6 +21,7 @@
 						[class.is-active]="activeTab() === tab.id"
 						[attr.aria-selected]="activeTab() === tab.id"
 						[attr.aria-controls]="'section-' + tab.id"
+						[attr.aria-roledescription]="'Seletor ' + tab.title"
 						[id]="'tab-' + tab.id"
 						(click)="setTab(tab.id)"
 					>
