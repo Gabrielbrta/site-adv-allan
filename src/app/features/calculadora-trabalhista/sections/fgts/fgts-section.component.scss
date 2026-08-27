@@ -59,7 +59,7 @@
   }
 
   .section-card__grid--compact {
-    grid-template-columns: minmax(0, 1fr); /* ← nunca 1fr puro */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .section-card__grid--compact app-input-date:last-child {
