@@ -13,9 +13,13 @@
   letter-spacing: 0.01em;
 }
 
-// .calc-field__control {
-//   position: relative;
-// }
+.calc-field__control {
+  position: relative;
+
+  @media (max-width: 400px) {
+    max-width: 320px;
+  }
+}
 
 .calc-field__input {
   min-width: 0;
