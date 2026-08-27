@@ -15,17 +15,16 @@
 
 .calc-field__control {
   position: relative;
-  box-sizing: border-box !important;
-  // @media (max-width: 400px) {
-  //   max-width: 300px;
-  // }
+
+  @media (max-width: 400px) {
+    max-width: 300px;
+  }
 }
 
 .calc-field__input {
   min-width: 0;
   width: 100%;
-  max-width: 100%;
-  box-sizing: border-box !important;
+  box-sizing: border-box;
 
   border: 1px solid rgba(30, 29, 27, 0.14);
   border-radius: 16px;
