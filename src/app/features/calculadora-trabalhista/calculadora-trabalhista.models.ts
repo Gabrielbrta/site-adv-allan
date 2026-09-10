@@ -100,7 +100,6 @@ export interface FeriasCalculationResult {
 
 export interface RescisaoControls {
   employeeName: FormControl<string>;
-  situation: FormControl<string>;
   admissionDate: FormControl<string>;
   lastServiceDate: FormControl<string>;
   dismissalReason: FormControl<string>;
@@ -127,7 +126,13 @@ export interface RescisaoCalculationResult {
   vacationExpiredThird: number;
   vacationProportional: number;
   vacationProportionalThird: number;
+  thirteenthReferenceMonths: number;
   thirteenthProportional: number;
+  thirteenthINSS: number;
+  thirteenthIRRF: number;
+  thirteenthNet: number;
+  thirteenthFirstInstallment: number;
+  thirteenthSecondInstallment: number;
   fgtsFine: number;
   totalGross: number;
   inssDiscount: number;

@@ -20,6 +20,11 @@ import { FeriasSectionComponent } from './sections/ferias/ferias-section.compone
 import { FgtsSectionComponent } from './sections/fgts/fgts-section.component';
 import { RescisaoSectionComponent } from './sections/rescisao/rescisao-section.component';
 import { Meta, Title } from '@angular/platform-browser';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import {
+  CalculadoraPdfReport,
+  CalculadoraPdfService,
+} from '../../core/services/calculadora-pdf.service';
 
 @Component({
   selector: 'app-calculadora-trabalhista',
@@ -29,6 +34,7 @@ import { Meta, Title } from '@angular/platform-browser';
     FeriasSectionComponent,
     RescisaoSectionComponent,
     CalculationResultComponent,
+    ButtonComponent
   ],
   templateUrl: './calculadora-trabalhista.component.html',
   styleUrl: './calculadora-trabalhista.component.scss',
@@ -36,23 +42,24 @@ import { Meta, Title } from '@angular/platform-browser';
 export class CalculadoraTrabalhistaComponent {
 
   private readonly calculadoraService = inject(CalculadoraTrabalhistaService);
+  private readonly calculadoraPdfService = inject(CalculadoraPdfService);
 
   readonly tabs: readonly CalculadoraTabDefinition[] = [
     {
-      id: 'fgts',
-      title: 'FGTS'
+      id: 'rescisao',
+      title: 'Rescisão',
     },
     {
       id: 'ferias',
       title: 'Férias',
     },
     {
-      id: 'rescisao',
-      title: 'Rescisão',
+      id: 'fgts',
+      title: 'FGTS'
     },
   ];
 
-  readonly activeTab = signal<CalculadoraTabId>('fgts');
+  readonly activeTab = signal<CalculadoraTabId>('rescisao');
 
   readonly fgtsForm = new FormGroup<FgtsControls>({
     salaryBase: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -82,7 +89,6 @@ export class CalculadoraTrabalhistaComponent {
 
   readonly rescisaoForm = new FormGroup<RescisaoControls>({
     employeeName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    situation: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     admissionDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     lastServiceDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     dismissalReason: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -139,6 +145,7 @@ export class CalculadoraTrabalhistaComponent {
 
   readonly rescisaoResult = signal<CalculationResultSection | null>(null);
   readonly rescisaoRawResult = signal<RescisaoCalculationResult | null>(null);
+  readonly pdfBusy = signal(false);
 
   setTab(tab: CalculadoraTabId): void {
     this.activeTab.set(tab);
@@ -202,6 +209,160 @@ export class CalculadoraTrabalhistaComponent {
       this.rescisaoResult.set(toRescisaoResultSection(rescisaoResult));
       this.rescisaoRawResult.set(rescisaoResult);
     }
+  }
+
+  async downloadPdf(): Promise<void> {
+    if (this.pdfBusy()) {
+      return;
+    }
+
+    const report = this.buildPdfReport();
+    if (!report) {
+      return;
+    }
+
+    this.pdfBusy.set(true);
+    try {
+      await this.calculadoraPdfService.download(report);
+    } finally {
+      this.pdfBusy.set(false);
+    }
+  }
+
+  private buildPdfReport(): CalculadoraPdfReport | null {
+    const issuedAt = new Date();
+
+    if (this.activeTab() === 'fgts') {
+      const result = this.fgtsRawResult();
+      if (!result) return null;
+      const form = this.fgtsForm.getRawValue();
+      return {
+        title: 'Resultado FGTS',
+        calculationType: 'fgts',
+        issuedAt,
+        sections: [
+          {
+            title: 'Dados informados',
+            rows: [
+              { label: 'Salário-base', value: form.salaryBase || 'Não informado' },
+              { label: 'Início do contrato', value: form.contractStart || 'Não informado' },
+              { label: 'Fim do contrato', value: form.contractEnd || 'Não informado' },
+              { label: 'Tipo de rescisão', value: form.rescisaoType || 'Não informado' },
+            ],
+          },
+          {
+            title: 'Resultado do cálculo FGTS',
+            rows: [
+              { label: 'Meses de referência', value: formatDecimal(result.referenceMonths) },
+              { label: 'Depósitos estimados', value: formatCurrencyBRL(result.depositAmount) },
+              { label: 'Percentual da multa', value: `${result.penaltyRate * 100}%` },
+              { label: 'Valor da multa', value: formatCurrencyBRL(result.penaltyAmount) },
+            ],
+          },
+        ],
+        totalLabel: 'Total estimado',
+        totalValue: formatCurrencyBRL(result.totalAmount),
+        note: this.fgtsResult()?.note,
+      };
+    }
+
+    if (this.activeTab() === 'ferias') {
+      const result = this.feriasRawResult();
+      if (!result) return null;
+      const form = this.feriasForm.getRawValue();
+      return {
+        title: 'Resultado de Férias',
+        calculationType: 'ferias',
+        issuedAt,
+        employeeName: form.employeeName,
+        sections: [
+          {
+            title: 'Dados informados',
+            rows: [
+              { label: 'Nome', value: form.employeeName || 'Não informado' },
+              { label: 'Período aquisitivo', value: `${form.acquisitionPeriodStart} a ${form.acquisitionPeriodEnd}` },
+              { label: 'Período de férias', value: `${form.vacationStart} a ${form.vacationEnd}` },
+              { label: 'Salário mensal', value: form.monthlySalary || 'Não informado' },
+              { label: 'Média de horas extras', value: form.overtimeAverage || 'R$ 0,00' },
+              { label: 'Média de adicional noturno', value: form.nightShiftAverage || 'R$ 0,00' },
+              { label: 'Média de comissões', value: form.commissionAverage || 'R$ 0,00' },
+              { label: 'Faltas injustificadas', value: `${form.absences} dias` },
+              { label: 'Dias vendidos', value: `${form.soldDays} dias` },
+              { label: 'Dependentes', value: String(form.dependents) },
+            ],
+          },
+          {
+            title: 'Resultado do cálculo Férias',
+            rows: [
+              { label: 'Dias de direito', value: `${result.entitledDays} dias` },
+              { label: 'Dias de férias', value: `${result.vacationDays} dias` },
+              { label: 'Dias vendidos', value: `${result.soldDays} dias` },
+              { label: 'Salário-base', value: formatCurrencyBRL(result.baseSalary) },
+              { label: 'Valor diário', value: formatCurrencyBRL(result.dailyRate) },
+              { label: 'Valor das férias', value: formatCurrencyBRL(result.vacationValue) },
+              { label: '1/3 constitucional das férias', value: formatCurrencyBRL(result.oneThirdVacation) },
+              { label: 'Valor do abono', value: formatCurrencyBRL(result.abonoValue) },
+              { label: '1/3 constitucional do abono', value: formatCurrencyBRL(result.oneThirdAbono) },
+              { label: 'Total bruto', value: formatCurrencyBRL(result.totalGross) },
+              { label: 'Desconto INSS', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
+            ],
+          },
+        ],
+        totalLabel: 'Total líquido estimado',
+        totalValue: formatCurrencyBRL(result.totalNet),
+        note: this.feriasResult()?.note,
+      };
+    }
+
+    const result = this.rescisaoRawResult();
+    if (!result) return null;
+    const form = this.rescisaoForm.getRawValue();
+    return {
+      title: 'Resultado da Rescisão',
+      calculationType: 'rescisao',
+      issuedAt,
+      employeeName: form.employeeName,
+      sections: [
+        {
+          title: 'Dados informados',
+          rows: [
+            { label: 'Nome', value: form.employeeName || 'Não informado' },
+            { label: 'Data de admissão', value: form.admissionDate || 'Não informado' },
+            { label: 'Último dia trabalhado', value: form.lastServiceDate || 'Não informado' },
+            { label: 'Motivo da dispensa', value: form.dismissalReason || 'Não informado' },
+            { label: 'Último salário', value: form.lastSalary || 'Não informado' },
+            { label: 'Tipo de aviso prévio', value: form.noticeType || 'Não informado' },
+            { label: 'Férias vencidas', value: form.vacationDue || 'Não informado' },
+          ],
+        },
+        {
+          title: 'Resultado do cálculo Rescisão',
+          rows: [
+            { label: 'Dias trabalhados', value: `${result.workedDays} dias` },
+            { label: 'Saldo de salário', value: formatCurrencyBRL(result.salaryBalance) },
+            { label: 'Aviso prévio', value: `${result.noticePeriodDays} dias` },
+            { label: 'Valor do aviso prévio', value: formatCurrencyBRL(result.noticePeriodValue) },
+            { label: 'Férias vencidas', value: formatCurrencyBRL(result.vacationExpired) },
+            { label: '1/3 de férias vencidas', value: formatCurrencyBRL(result.vacationExpiredThird) },
+            { label: 'Férias proporcionais', value: formatCurrencyBRL(result.vacationProportional) },
+            { label: '1/3 de férias proporcionais', value: formatCurrencyBRL(result.vacationProportionalThird) },
+            { label: 'Avos do 13º salário', value: `${result.thirteenthReferenceMonths}/12` },
+            { label: '13º proporcional bruto', value: formatCurrencyBRL(result.thirteenthProportional) },
+            { label: 'INSS sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthINSS)}` },
+            { label: 'IRRF sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthIRRF)}` },
+            { label: '13º líquido', value: formatCurrencyBRL(result.thirteenthNet) },
+            { label: '1ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthFirstInstallment) },
+            { label: '2ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthSecondInstallment) },
+            { label: 'Multa FGTS', value: formatCurrencyBRL(result.fgtsFine) },
+            { label: 'Total bruto', value: formatCurrencyBRL(result.totalGross) },
+            { label: 'Desconto INSS', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
+          ],
+        },
+      ],
+      totalLabel: 'Total líquido estimado',
+      totalValue: formatCurrencyBRL(result.totalNet),
+      note: this.rescisaoResult()?.note,
+    };
   }
 
   readonly trackTab = (_index: number, tab: CalculadoraTabDefinition) => tab.id;
@@ -488,12 +649,17 @@ function toRescisaoResultSection(result: RescisaoCalculationResult): Calculation
       { label: '1/3 Férias vencidas', value: formatCurrencyBRL(result.vacationExpiredThird) },
       { label: 'Férias proporcionais', value: formatCurrencyBRL(result.vacationProportional) },
       { label: '1/3 Férias proporcionais', value: formatCurrencyBRL(result.vacationProportionalThird) },
-      { label: '13º salário proporcional', value: formatCurrencyBRL(result.thirteenthProportional) },
+      { label: '13º proporcional bruto', value: `${formatCurrencyBRL(result.thirteenthProportional)} (${result.thirteenthReferenceMonths}/12 avos)` },
+      { label: 'INSS sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthINSS)}` },
+      { label: 'IRRF sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthIRRF)}` },
+      { label: '13º líquido na rescisão', value: formatCurrencyBRL(result.thirteenthNet) },
+      { label: 'Referência da 1ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthFirstInstallment) },
+      { label: 'Referência da 2ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthSecondInstallment) },
       { label: 'Multa FGTS (40%)', value: formatCurrencyBRL(result.fgtsFine) },
       { label: 'Desconto INSS', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
       { label: 'Total líquido estimado', value: formatCurrencyBRL(result.totalNet), emphasize: true },
     ],
-    note: `Motivo: ${result.dismissalReason}. Este é um cálculo aproximado. Consulte um advogado para análise detalhada.`,
+    note: `Motivo: ${result.dismissalReason}. A 1ª e a 2ª parcela são referências da composição anual; o 13º líquido acima representa a quitação na rescisão, já com os descontos de INSS e IRRF estimados. Este é um cálculo aproximado. Para uma análise mais detalhada, fale com nossos especialistas.`,
   };
 }
 

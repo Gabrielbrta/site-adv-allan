@@ -25,6 +25,7 @@ describe('CalculadoraTrabalhistaComponent', () => {
       salaryBase: 'R$ 4.500,00',
       contractStart: '2024-01-01',
       contractEnd: '2024-12-31',
+      rescisaoType: 'sem_justa_causa',
     });
 
     component.submit();
@@ -39,11 +40,12 @@ describe('CalculadoraTrabalhistaComponent', () => {
       salaryBase: 'R$ 4.500,00',
       contractStart: '2024-12-31',
       contractEnd: '2024-01-01',
+      rescisaoType: 'sem_justa_causa',
     });
 
     component.submit();
 
     expect(component.fgtsResult()).toBeNull();
-    expect(component.fgtsForm.controls.contractEnd.hasError('dateRange')).toBeTrue();
+    expect(component.fgtsForm.controls.contractEnd.hasError('dateRange')).toBe(true);
   });
 });
