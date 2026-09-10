@@ -174,3 +174,12 @@ html {
 ::placeholder {
   opacity: 0.6;
 }
+
+[data-slide="true"] {
+  opacity: 0;
+}
+
+.slide {
+  opacity: 1 !important;
+  transition: opacity 0.3s ease;
+}
