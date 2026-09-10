@@ -1,0 +1,11 @@
+# Regras de rastreamento para o site publico
+User-agent: *
+Allow: /
+
+# Evita rastreamento de caminhos tecnicos ou internos
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Adicione aqui a URL absoluta quando o dominio de producao estiver definido:
+# Sitemap: https://allan-rodrigues-adv.vercel.app/sitemap.xml
