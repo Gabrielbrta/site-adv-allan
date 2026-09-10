@@ -186,6 +186,8 @@ export class CalculadoraTrabalhistaService {
       noticePeriodValue = 0;
     }
 
+    const noticeEndDate = this.addDays(params.lastServiceDate, noticePeriodDays);
+
     let vacationExpired = 0;
     let vacationExpiredThird = 0;
     
@@ -205,11 +207,26 @@ export class CalculadoraTrabalhistaService {
       vacationProportionalThird = roundCurrency(vacationProportional / 3);
     }
 
-    let thirteenthProportional = 0;
-    
-    if (params.dismissalReason !== 'com_justa_causa') {
-      thirteenthProportional = roundCurrency((params.lastSalary / 12) * proportionalMonths);
-    }
+    const thirteenthReferenceMonths = params.dismissalReason === 'com_justa_causa'
+      ? 0
+      : this.countThirteenthMonths(
+        params.admissionDate,
+        params.lastServiceDate,
+        noticeEndDate,
+      );
+    const thirteenthProportional = roundCurrency(
+      (params.lastSalary / 12) * thirteenthReferenceMonths,
+    );
+    const thirteenthINSS = this.calculateProgressiveINSS(thirteenthProportional);
+    const thirteenthIRRFBase = Math.max(0, thirteenthProportional - thirteenthINSS);
+    const thirteenthIRRF = this.calculateProgressiveIRRF(thirteenthIRRFBase);
+    const thirteenthNet = roundCurrency(
+      thirteenthProportional - thirteenthINSS - thirteenthIRRF,
+    );
+    const thirteenthFirstInstallment = roundCurrency(thirteenthProportional / 2);
+    const thirteenthSecondInstallment = roundCurrency(
+      Math.max(0, thirteenthProportional - thirteenthFirstInstallment - thirteenthINSS),
+    );
 
     let fgtsFine = 0;
     const estimatedFGTS = params.lastSalary * 0.08 * monthsWorked;
@@ -231,8 +248,9 @@ export class CalculadoraTrabalhistaService {
 
     const inssBase = salaryBalance + noticePeriodValue;
     const inssDiscount = this.calculateProgressiveINSS(inssBase);
+    const totalINSS = roundCurrency(inssDiscount + thirteenthINSS);
 
-    const totalNet = roundCurrency(totalGross - inssDiscount);
+    const totalNet = roundCurrency(totalGross - totalINSS - thirteenthIRRF);
 
     const dismissalReasonLabel = this.getDismissalReasonLabel(params.dismissalReason);
 
@@ -245,13 +263,56 @@ export class CalculadoraTrabalhistaService {
       vacationExpiredThird,
       vacationProportional,
       vacationProportionalThird,
+      thirteenthReferenceMonths,
       thirteenthProportional,
+      thirteenthINSS,
+      thirteenthIRRF,
+      thirteenthNet,
+      thirteenthFirstInstallment,
+      thirteenthSecondInstallment,
       fgtsFine,
       totalGross,
-      inssDiscount,
+      inssDiscount: totalINSS,
       totalNet,
       dismissalReason: dismissalReasonLabel,
     };
+  }
+
+  private countThirteenthMonths(
+    admissionDate: Date,
+    lastServiceDate: Date,
+    noticeEndDate: Date,
+  ): number {
+    const referenceYear = lastServiceDate.getFullYear();
+    const yearStart = new Date(referenceYear, 0, 1);
+    const yearEnd = new Date(referenceYear, 11, 31);
+    const startDate = admissionDate > yearStart ? admissionDate : yearStart;
+    const endDate = noticeEndDate < yearEnd ? noticeEndDate : yearEnd;
+
+    if (startDate > endDate) {
+      return 0;
+    }
+
+    return this.countReferenceMonths(startDate, endDate);
+  }
+
+  private addDays(date: Date, days: number): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  private calculateProgressiveIRRF(baseValue: number): number {
+    const brackets = [
+      { limit: 2259.20, rate: 0, deduction: 0 },
+      { limit: 2826.65, rate: 0.075, deduction: 169.44 },
+      { limit: 3751.05, rate: 0.15, deduction: 381.44 },
+      { limit: 4664.68, rate: 0.225, deduction: 662.77 },
+      { limit: Number.POSITIVE_INFINITY, rate: 0.275, deduction: 896.00 },
+    ];
+
+    const bracket = brackets.find(({ limit }) => baseValue <= limit);
+    return bracket ? roundCurrency(Math.max(0, baseValue * bracket.rate - bracket.deduction)) : 0;
   }
 
   private getDismissalReasonLabel(reason: string): string {

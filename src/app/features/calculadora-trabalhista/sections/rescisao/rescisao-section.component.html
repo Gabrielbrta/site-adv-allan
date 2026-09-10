@@ -17,14 +17,6 @@
     />
 
     <div class="section-card__grid section-card__grid--two-columns">
-      <app-input-select
-        label="Situação"
-        formControlName="situation"
-        [options]="situationOptions"
-        [invalid]="form().controls.situation.invalid && form().controls.situation.touched"
-        [required]="true"
-        errorText="Selecione a situação."
-      />
       <app-input-date
         label="Data de admissão"
         formControlName="admissionDate"
@@ -32,16 +24,16 @@
         [required]="true"
         errorText="Informe a data de admissão."
       />
-    </div>
-
-    <div class="section-card__grid section-card__grid--two-columns">
-      <app-input-date
+          <app-input-date
         label="Último dia de serviço"
         formControlName="lastServiceDate"
         [invalid]="form().controls.lastServiceDate.invalid && form().controls.lastServiceDate.touched"
         [required]="true"
         errorText="Informe o último dia de serviço."
       />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
       <app-input-select
         label="Motivo da rescisão"
         formControlName="dismissalReason"
@@ -50,10 +42,7 @@
         [required]="true"
         errorText="Selecione o motivo da rescisão."
       />
-    </div>
-
-    <div class="section-card__grid section-card__grid--two-columns">
-      <app-input
+       <app-input
         label="Último salário (R$)"
         placeholder="Ex.: 4.500,00"
         inputMode="decimal"
@@ -62,6 +51,10 @@
         [invalid]="form().controls.lastSalary.invalid && form().controls.lastSalary.touched"
         errorText="Informe o último salário."
       />
+    </div>
+
+    <div class="section-card__grid section-card__grid--two-columns">
+     
       <app-input-select
         label="Aviso prévio"
         formControlName="noticeType"
@@ -70,9 +63,6 @@
         [invalid]="form().controls.noticeType.invalid && form().controls.noticeType.touched"
         errorText="Selecione o aviso prévio."
       />
-    </div>
-
-    <div class="section-card__grid section-card__grid--two-columns">
       <app-input-select
         label="Férias vencidas?"
         formControlName="vacationDue"

@@ -84,7 +84,6 @@ export class CalculadoraTrabalhistaComponent {
 
   readonly rescisaoForm = new FormGroup<RescisaoControls>({
     employeeName: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    situation: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     admissionDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     lastServiceDate: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     dismissalReason: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -490,12 +489,17 @@ function toRescisaoResultSection(result: RescisaoCalculationResult): Calculation
       { label: '1/3 Férias vencidas', value: formatCurrencyBRL(result.vacationExpiredThird) },
       { label: 'Férias proporcionais', value: formatCurrencyBRL(result.vacationProportional) },
       { label: '1/3 Férias proporcionais', value: formatCurrencyBRL(result.vacationProportionalThird) },
-      { label: '13º salário proporcional', value: formatCurrencyBRL(result.thirteenthProportional) },
+      { label: '13º proporcional bruto', value: `${formatCurrencyBRL(result.thirteenthProportional)} (${result.thirteenthReferenceMonths}/12 avos)` },
+      { label: 'INSS sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthINSS)}` },
+      { label: 'IRRF sobre o 13º', value: `- ${formatCurrencyBRL(result.thirteenthIRRF)}` },
+      { label: '13º líquido na rescisão', value: formatCurrencyBRL(result.thirteenthNet) },
+      { label: 'Referência da 1ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthFirstInstallment) },
+      { label: 'Referência da 2ª parcela do 13º', value: formatCurrencyBRL(result.thirteenthSecondInstallment) },
       { label: 'Multa FGTS (40%)', value: formatCurrencyBRL(result.fgtsFine) },
       { label: 'Desconto INSS', value: `- ${formatCurrencyBRL(result.inssDiscount)}` },
       { label: 'Total líquido estimado', value: formatCurrencyBRL(result.totalNet), emphasize: true },
     ],
-    note: `Motivo: ${result.dismissalReason}. Este é um cálculo aproximado. Consulte um advogado para análise detalhada.`,
+    note: `Motivo: ${result.dismissalReason}. A 1ª e a 2ª parcela são referências da composição anual; o 13º líquido acima representa a quitação na rescisão, já com os descontos de INSS e IRRF estimados. Este é um cálculo aproximado. Para uma análise mais detalhada, fale com nossos especialistas.`,
   };
 }
 
