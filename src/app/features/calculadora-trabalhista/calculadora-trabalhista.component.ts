@@ -20,6 +20,7 @@ import { FeriasSectionComponent } from './sections/ferias/ferias-section.compone
 import { FgtsSectionComponent } from './sections/fgts/fgts-section.component';
 import { RescisaoSectionComponent } from './sections/rescisao/rescisao-section.component';
 import { Meta, Title } from '@angular/platform-browser';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-calculadora-trabalhista',
@@ -29,6 +30,7 @@ import { Meta, Title } from '@angular/platform-browser';
     FeriasSectionComponent,
     RescisaoSectionComponent,
     CalculationResultComponent,
+    ButtonComponent
   ],
   templateUrl: './calculadora-trabalhista.component.html',
   styleUrl: './calculadora-trabalhista.component.scss',
@@ -39,20 +41,20 @@ export class CalculadoraTrabalhistaComponent {
 
   readonly tabs: readonly CalculadoraTabDefinition[] = [
     {
-      id: 'fgts',
-      title: 'FGTS'
+      id: 'rescisao',
+      title: 'Rescisão',
     },
     {
       id: 'ferias',
       title: 'Férias',
     },
     {
-      id: 'rescisao',
-      title: 'Rescisão',
+      id: 'fgts',
+      title: 'FGTS'
     },
   ];
 
-  readonly activeTab = signal<CalculadoraTabId>('fgts');
+  readonly activeTab = signal<CalculadoraTabId>('rescisao');
 
   readonly fgtsForm = new FormGroup<FgtsControls>({
     salaryBase: new FormControl('', { nonNullable: true, validators: [Validators.required] }),

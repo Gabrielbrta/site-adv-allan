@@ -89,6 +89,23 @@
 	}
 }
 
+.button-container {
+	display: flex;
+	max-width: 600px;
+	justify-self: flex-end;
+	gap: 10px;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	
+	@media (max-width: 780px) {
+		max-width: none;
+		width: 100%;
+		display: block;
+	}
+	
+}
+
 .calculator-tab {
 	display: grid;
 	gap: 0.28rem;

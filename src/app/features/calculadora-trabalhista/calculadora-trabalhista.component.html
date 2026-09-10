@@ -35,7 +35,6 @@
 			<header class="calculator-form__header">
 				<div>
 					<h2>{{ currentTab().title }}</h2>
-					<!-- <p>{{ currentTab().description }}</p> -->
 				</div>
 
 				<div class="calculator-progress" aria-live="polite">
@@ -54,9 +53,7 @@
 					
 					@if (fgtsResult(); as result) {
 						<app-calculation-result [section]="result" />
-					}
-					
-					@if (fgtsRawResult(); as raw) {
+						@if (fgtsRawResult(); as raw) {
 						<div class="result-badge" [class]="'penalty-' + raw.penaltyRate">
 							@switch (raw.penaltyRate) {
 								@case (0.40) { Multa de 40% — Dispensa sem justa causa ou rescisão indireta }
@@ -65,6 +62,18 @@
 							}
 						</div>
 					}
+					<div class="button-container">
+						<app-button
+							[text]="'Falar com um Especialista'"
+							[href]="'https://wa.me/+551396899084'"
+							[style]="'green'"
+							[icon]="'icons/whatsapp-white.svg'"
+							>
+						</app-button>
+					</div>
+					}
+					
+					
 				}
 				  @case ('ferias') {
 					<app-ferias-section [form]="feriasForm" />
@@ -74,8 +83,6 @@
 
 					@if (feriasResult(); as result) {
 					<app-calculation-result [section]="result" />
-					}
-
 					@if (feriasRawResult(); as raw) {
 						@if (raw.entitledDays === 0) {
 							<div class="result-badge penalty-0">
@@ -86,12 +93,25 @@
 							 Período de férias reduzido para {{ raw.entitledDays }} dias devido às faltas
 							</div>
 						} @else {
-								<div class="result-badge penalty-40">
-								Período de férias completo (30 dias)
-								</div>
-							}
+							<div class="result-badge penalty-40">
+							Período de férias completo (30 dias)
+							</div>
 						}
+					}
+					<div class="button-container">
+						<app-button
+							[text]="'Falar com um Especialista'"
+							[href]="'https://wa.me/+551396899084'"
+							[style]="'green'"
+							[icon]="'icons/whatsapp-white.svg'"
+							>
+						</app-button>
+
+					</div>
+					}
+					
 				}
+
 				@case ('rescisao') {
 					<app-rescisao-section [form]="rescisaoForm" />
 					<footer class="calculator-form__footer">
@@ -99,7 +119,16 @@
 					</footer>
 
 					 @if (rescisaoResult(); as result) {
-						<app-calculation-result [section]="result" />
+						 <app-calculation-result [section]="result" />
+					<div class="button-container">
+						<app-button
+							[text]="'Falar com um Especialista'"
+							[href]="'https://wa.me/+551396899084'"
+							[style]="'green'"
+							[icon]="'icons/whatsapp-white.svg'"
+							>
+						</app-button>
+					</div>
 					}
 				}
 			}
