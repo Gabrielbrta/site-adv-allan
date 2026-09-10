@@ -106,6 +106,35 @@
 	
 }
 
+.result-actions {
+	max-width: 760px;
+	margin-left: auto;
+	justify-content: flex-end;
+	align-items: stretch;
+
+	> .button-container {
+		width: 100%;
+	}
+}
+
+.download-button {
+	max-width: 300px;
+	width: 100%;
+	border: 1px solid rgba(0, 0, 0, 0.295);
+	background: var(--white-color);
+	color: var(--black-color);
+	transition: background-color 0.3s ease, color 0.3s ease;
+
+	&:hover:not(:disabled) {
+		background: var(--white-hover);
+	}
+
+	&:disabled {
+		cursor: wait;
+		opacity: 0.65;
+	}
+}
+
 .calculator-tab {
 	display: grid;
 	gap: 0.28rem;
@@ -253,6 +282,25 @@
 	}
 
 	.calculator-submit {
+		width: 100%;
+	}
+
+	.result-actions {
+		flex-direction: column;
+		align-items: stretch;
+		display: flex;
+
+		> app-button,
+		> .download-button {
+			width: 100%;
+		}
+
+		> app-button .button-container {
+			display: flex;
+		}
+	}
+
+	.download-button {
 		width: 100%;
 	}
 

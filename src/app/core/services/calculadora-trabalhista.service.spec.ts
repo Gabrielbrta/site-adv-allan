@@ -15,6 +15,7 @@ describe('CalculadoraTrabalhistaService', () => {
       salaryBase: 4000,
       contractStart: new Date(Date.UTC(2026, 0, 1)),
       contractEnd: new Date(Date.UTC(2026, 0, 30)),
+      rescisaoType: 'sem_justa_causa',
     });
 
     expect(result.referenceMonths).toBe(1);
@@ -28,6 +29,7 @@ describe('CalculadoraTrabalhistaService', () => {
       salaryBase: 3500,
       contractStart: new Date(Date.UTC(2026, 0, 1)),
       contractEnd: new Date(Date.UTC(2026, 0, 15)),
+      rescisaoType: 'sem_justa_causa',
     });
 
     expect(result.referenceMonths).toBe(0.5);

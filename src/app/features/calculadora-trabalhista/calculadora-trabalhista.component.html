@@ -62,7 +62,10 @@
 							}
 						</div>
 					}
-					<div class="button-container">
+					<div class="button-container result-actions">
+						<button class="download-button btn-primary" type="button" (click)="downloadPdf()" [disabled]="pdfBusy()">
+							{{ pdfBusy() ? 'Gerando PDF...' : 'Baixar PDF' }}
+						</button>
 						<app-button
 							[text]="'Falar com um Especialista'"
 							[href]="'https://wa.me/+551396899084'"
@@ -98,7 +101,10 @@
 							</div>
 						}
 					}
-					<div class="button-container">
+					<div class="button-container result-actions">
+						<button class="download-button btn-primary" type="button" (click)="downloadPdf()" [disabled]="pdfBusy()">
+							{{ pdfBusy() ? 'Gerando PDF...' : 'Baixar PDF' }}
+						</button>
 						<app-button
 							[text]="'Falar com um Especialista'"
 							[href]="'https://wa.me/+551396899084'"
@@ -120,7 +126,10 @@
 
 					 @if (rescisaoResult(); as result) {
 						 <app-calculation-result [section]="result" />
-					<div class="button-container">
+					<div class="button-container result-actions">
+						<button class="download-button btn-primary" type="button" (click)="downloadPdf()" [disabled]="pdfBusy()">
+							{{ pdfBusy() ? 'Gerando PDF...' : 'Baixar PDF' }}
+						</button>
 						<app-button
 							[text]="'Falar com um Especialista'"
 							[href]="'https://wa.me/+551396899084'"
