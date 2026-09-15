@@ -15,7 +15,7 @@ import { Inject, PLATFORM_ID } from '@angular/core';
   styleUrl: './main-content.component.scss',
 })
 export class MainContentComponent implements AfterViewInit, OnDestroy {
-  private scrollTimeout?: ReturnType<typeof setTimeout>;
+  private scrollFrame?: number;
   private removeScrollListener?: () => void;
   private removeTouchStartListener?: () => void;
 
@@ -46,26 +46,31 @@ export class MainContentComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearTimeout(this.scrollTimeout);
+    if (this.scrollFrame !== undefined) {
+      cancelAnimationFrame(this.scrollFrame);
+    }
     this.removeScrollListener?.();
     this.removeTouchStartListener?.();
   }
 
   private handleScroll(): void {
-    clearTimeout(this.scrollTimeout);
+    if (this.scrollFrame !== undefined) {
+      return;
+    }
 
-    this.scrollTimeout = setTimeout(() => {
+    this.scrollFrame = requestAnimationFrame(() => {
+      this.scrollFrame = undefined;
 
-      const triggerPosition = window.innerHeight * 0.7;
+      const triggerPosition = window.innerHeight * 0.8;
 
       const sections = document.querySelectorAll<HTMLElement>('[data-slide="true"]');
 
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        const visibleBefore70Percent =
+        const visibleBefore80Percent =
           rect.top < triggerPosition && rect.bottom > 0;
 
-        if (visibleBefore70Percent) {
+        if (visibleBefore80Percent) {
           section.classList.add('slide');
         }
       });
@@ -78,6 +83,6 @@ export class MainContentComponent implements AfterViewInit, OnDestroy {
         this.removeTouchStartListener?.();
         this.removeTouchStartListener = undefined;
       }
-    }, 250);
+    });
   }
 }
